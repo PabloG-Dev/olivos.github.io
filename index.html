@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CuerdOS - Optimized to the last pixel</title>
+    <meta name="description" content="CuerdOS: Distribución GNU/Linux enfocada en estabilidad, eficiencia y rendimiento">
+    <link rel="icon" href="images/cuerdos_logo.webp" type="image/webp"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" as="style">
+	<link rel="stylesheet" href="style.css">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap">
+    <script src="translations.js"></script>
+    <script src="https://itszariep.github.io/SJTSW/sjtsw.js"></script>
+</head>
+<body>
+    <!-- Navegación -->
+    <nav class="navbar" role="navigation" aria-label="Main navigation">
+        <div class="navbar-container">
+            <img src="images/olivos-logo.svg" 
+                 alt="OlivOS Logo" 
+                 class="nav-logo"
+                 onclick="window.scrollTo({ top: 0, behavior: 'smooth' })">
+            
+            <ul class="nav-menu">
+                <li><a id="str-menu-about" href="#acerca" class="nav-link">About</a></li>
+                <li><a id="str-menu-download" href="#descarga" class="nav-link">Download</a></li>
+                <li><a id="str-menu-wiki" href="https://cuerdoswiki.blogspot.com/" class="nav-link">Wiki</a></li>
+            </ul>
+
+            <img src="images/github.svg" 
+                 alt="GitHub" 
+                 class="nav-logo"
+                 onclick="window.location.href='https://github.com/CuerdOS'">
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <img src="images/olivos-hero.png" 
+         alt="CuerdOS Cessna" 
+         class="hero"
+         loading="eager">
+
+    <!-- About Section -->
+    <section id="acerca" class="section">
+        <div class="container">
+            <p id="str-slogan" class="slogan">
+                "Optimized to the last pixel."
+            </p>
+            
+            <h1 id="str-title-about">About</h1>
+            
+            <p id="str-content-about-1">CuerdOS is a GNU/Linux distribution of spanish origin focused on stability, eficiency and performance on computers of any range, without losing any functionality.</p>
+            
+            <p id="str-content-about-2">This  is not only a derivative with a customized desktop environment, but it has a series of optimizations and performance improvements, including: optimization of active services, improvements in the use of the processor, among many others.</p>
+
+            <h2 id="str-title-features" style="margin-top: var(--spacing-xl);">Main characteristics</h2>
+            
+            <div class="features-grid">
+                <div class="feature-card fade-in">
+                    <img src="images/void.svg" alt="Debian logo" loading="lazy">
+                    <h3 id="str-title-feature-1">Debian based</h3>
+                    <p id="str-content-feature-1">This provides great stability and security, as well as very good flexibility.</p>
+                </div>
+                
+                <div class="feature-card fade-in">
+                    <img src="images/vanguardia.webp" alt="Vanguardia" loading="lazy">
+                    <h3 id="str-title-feature-2">Light and fashionable</h3>
+                    <p id="str-content-feature-2">Unlike other lightweight distributions, CuerdOS is a system that opts for the avant-garde.</p>
+                </div>
+                
+                <div class="feature-card fade-in">
+                    <img src="images/sway.webp" alt="Sway" loading="lazy">
+                    <h3 id="str-title-feature-3">Sway</h3>
+                    <p id="str-content-feature-3">This distribution focuses on offering a great experience with Sway, although it also features Xfce and the Visuals included in other environments.</p>
+                </div>
+            </div>
+
+            <h2 id="str-title-otherfeatures" style="margin-top: var(--spacing-xl);">Other technical features</h2>
+            <ul style="max-width: 900px; margin: 0 auto;">
+                <li id="str-content-otherfeatures-1">Bauh Store preconfigured for easy installation of programs (Debs and flatpak).</li>
+                <li id="str-content-otherfeatures-2">ZRam preconfigured for all range of computers, without much impact on cpu usage when compressing.</li>
+                <li id="str-content-otherfeatures-3">Nala and Apt-fast pre-installed and configured.</li>
+                <li id="str-content-otherfeatures-4">CPU, GPU and RAM consumption optimization through patched kernel + Ananicy daemon as support.</li>
+                <li id="str-content-otherfeatures-5">Preconfigured TLP service to manage power consumption optimally regardless of the processor used, AMD and Intel.</li>
+                <li id="str-content-otherfeatures-6">Pipewire as default media server.</li>
+                <li id="str-content-otherfeatures-7">Waydroid support guaranteed.</li>
+                <li id="str-content-otherfeatures-8">Optimized system boot speed.</li>
+                <li id="str-content-otherfeatures-10">Grub and Plymouth with custom themes and distro themes.</li>
+                <li id="str-content-otherfeatures-11">System virtualization supported.</li>
+                <li id="str-content-otherfeatures-12">Automatic security updates.</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- Download Section -->
+    <section id="descarga" class="section">
+        <div class="container">
+            <h1 id="str-title-download">Download</h1>
+            
+            <p id="str-content-download-1">This is the first version of CuerdOS, called CuerdOS <a href="https://es.wikipedia.org/wiki/Cessna" class="text-accent">'Cessna'</a>, in case of finding errors or contributing ideas, please contact us via email or telegram. Thank you all for your collaboration and support.!</p>
+            
+            <p id="str-content-download-2">You can view the changelogs and bugs reported for different releases <a href="changelog.html" class="text-accent">here</a>.</p>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th id="str-title-tabletitle" colspan="2">System Requirements</th>
+                        </tr>
+                        <tr>
+                            <th id="str-tabletitle-minimum">Minimum</th>
+                            <th id="str-tabletitle-recommended">Recommended</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td id="str-tablecontent-minram">+1GB of RAM</td>
+                            <td id="str-tablecontent-recram">2GB of RAM</td>
+                        </tr>
+                        <tr>
+                            <td id="str-tablecontent-mincpu" colspan="2">x86_64 1,00 Ghz CPU</td>
+                        </tr>
+                        <tr>
+                            <td id="str-tablecontent-mindisk">8.5GB Disk storage</td>
+                            <td id="str-tablecontent-recdisk">8.5GB Disk Storage on SSD</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="section-header">
+                <img src="images/iso.svg" alt="ISO icon">
+                <h2 style="margin: 0;">CuerdOS Cessna 1.2.1</h2>
+            </div>
+
+            <div class="downloads-grid">
+                <div class="download-card fade-in">
+                    <h2 id="str-title-downloadlink-1">CuerdOS Standard</h2>
+                    <img src="images/cuerdos-standard.webp" alt="CuerdOS Standard screenshot" loading="lazy">
+                    <p id="str-content-downloadlink-1">This edition features CuerdOS as the default environment, including the Sway window manager.</p>
+                    <div class="dropdown">
+                        <button class="btn">CuerdOS-1.2.1-Standard (x86_64) ▼</button>
+                        <div class="dropdown-content">
+                            <a href="https://sourceforge.net/projects/cuerdos/files/stable/standard/CuerdOS-1.2.1-Standard_amd64.iso/download">⭐ Sourceforge ⭐</a>
+                            <a href="https://archive.org/download/cuerd-os-1.2.1-standard-amd-64/CuerdOS-1.2.1-Standard_amd64.iso">Archive</a>
+                            <a href="https://archive.org/download/cuerd-os-1.2.1-standard-amd-64/cuerd-os-1.2.1-standard-amd-64_archive.torrent">Torrent</a>
+                        </div>
+                    </div>
+                    <div style="margin-top: var(--spacing-sm);">
+                        <a href="checksums/standard-hash.txt" class="text-accent">Checksums</a>
+                    </div>
+                </div>
+                
+                <div class="download-card fade-in">
+                    <h2 id="str-title-downloadlink-2">CuerdOS Legacy</h2>
+                    <img src="images/cuerdos-legacy.webp" alt="CuerdOS Legacy screenshot" loading="lazy">
+                    <p id="str-content-downloadlink-2">Originally planned as Xfce, CuerdOS was first discarded but has now returned as a dedicated edition.</p>
+                    <div class="dropdown">
+                        <button class="btn">CuerdOS-1.2.1-Legacy (x86_64) ▼</button>
+                        <div class="dropdown-content">
+                            <a href="https://sourceforge.net/projects/cuerdos/files/stable/legacy/CuerdOS-1.2.1-Legacy_amd64.iso/download">⭐ Sourceforge ⭐</a>
+                            <a href="https://archive.org/download/cuerd-os-1.2.1-legacy-amd-64/CuerdOS-1.2.1-Legacy_amd64.iso">Archive</a>
+                            <a href="https://archive.org/download/cuerd-os-1.2.1-legacy-amd-64/cuerd-os-1.2.1-legacy-amd-64_archive.torrent">Torrent</a>
+                        </div>
+                    </div>
+                    <div style="margin-top: var(--spacing-sm);">
+                        <a href="checksums/legacy-hash.txt" class="text-accent">Checksums</a>
+                    </div>
+                </div>
+            </div>
+			
+            <p id="str-subtitle-upgradewarning" class="text-center" style="font-style: italic; color: var(--text-tertiary); margin-top: var(--spacing-lg);">
+                *Before testing the system, we strongly recommend that you upgrade to the latest version, as it will have all the new features and bugs fixed.*
+            </p>
+            
+            <p id="str-subtitle-logolicense" class="text-center" style="color: var(--text-tertiary); margin-top: var(--spacing-md);">
+                The <a href="https://github.com/CuerdOS/logo" class="text-accent">CuerdOS logo</a> is published under license <a href="https://creativecommons.org/licenses/by-sa/4.0/" class="text-accent">CC-BY-SA-4.0</a>
+            </p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <span id="str-credits">By CuerdOS Dev Team.</span>
+            <div class="footer-links">
+                <a href="mailto:cuerdoslinux@proton.me">E-Mail</a>
+                <a href="https://t.me/+GibSWjFc89Q2ODU8">Telegram</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>SJTSW_TranslatePage();</script>
+</body>
+</html>
