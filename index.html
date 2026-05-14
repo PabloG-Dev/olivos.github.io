@@ -3,79 +3,75 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CuerdOS - Optimized to the last pixel</title>
-    <meta name="description" content="CuerdOS: Distribución GNU/Linux enfocada en estabilidad, eficiencia y rendimiento">
+    <title></title>
+    <meta name="description" content="">
     <link rel="icon" href="images/cuerdos_logo.webp" type="image/webp"/>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" as="style">
 	<link rel="stylesheet" href="style.css">
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap">
-    <script src="translations.js"></script>
+    <script src="translations/index.js"></script>
     <script src="https://itszariep.github.io/SJTSW/sjtsw.js"></script>
 </head>
+
 <body>
-    <!-- Navegación -->
-    <nav class="navbar" role="navigation" aria-label="Main navigation">
+
+    <nav class="navbar" role="navigation" aria-label="">
         <div class="navbar-container">
-            <img src="images/olivos-logo.svg" 
-                 alt="CuerdOS Logo" 
-                 class="nav-logo"
+
+            <img src="images/olivos-logo.svg" alt="" class="nav-logo"
                  onclick="window.scrollTo({ top: 0, behavior: 'smooth' })">
-            
+
             <ul class="nav-menu">
                 <li><a id="str-menu-about" href="#acerca" class="nav-link"></a></li>
                 <li><a id="str-menu-download" href="#descarga" class="nav-link"></a></li>
-                <li><a id="str-menu-wiki" href="https://cuerdoswiki.blogspot.com/" class="nav-link"></a></li>
+                <li><a id="str-menu-wiki" href="wiki.html" class="nav-link"></a></li>
             </ul>
 
-            <img src="images/github.svg" 
-                 alt="GitHub" 
-                 class="nav-logo"
-                 onclick="window.location.href='https://github.com/CuerdOS'">
+            <img src="images/github.svg" alt="" class="nav-logo"
+                 onclick="window.location.href='https://github.com/PabloG-Dev'">
         </div>
     </nav>
 
-    <!-- Hero -->
-    <img src="images/olivos-hero.png" 
-         alt="CuerdOS Cessna" 
-         class="hero"
-         loading="eager">
+    <img src="images/olivos-hero.webp" alt="" class="hero" loading="eager">
 
-    <!-- About Section -->
     <section id="acerca" class="section">
         <div class="container">
+
             <p id="str-slogan" class="slogan"></p>
-            
+
             <h1 id="str-title-about"></h1>
-            
+
             <p id="str-content-about-1"></p>
-            
             <p id="str-content-about-2"></p>
 
             <h2 id="str-title-features" style="margin-top: var(--spacing-xl);"></h2>
-            
+
             <div class="features-grid">
+
                 <div class="feature-card fade-in">
-                    <img src="images/void.svg" alt="Debian logo" loading="lazy">
+                    <img src="images/void.svg" alt="" loading="lazy">
                     <h3 id="str-title-feature-1"></h3>
                     <p id="str-content-feature-1"></p>
                 </div>
-                
+
                 <div class="feature-card fade-in">
-                    <img src="images/vanguardia.webp" alt="Vanguardia" loading="lazy">
+                    <img src="images/pluma.svg" alt="" loading="lazy">
                     <h3 id="str-title-feature-2"></h3>
                     <p id="str-content-feature-2"></p>
                 </div>
-                
+
                 <div class="feature-card fade-in">
-                    <img src="images/sway.webp" alt="Sway" loading="lazy">
+                    <img src="images/lxqt.svg" alt="" loading="lazy">
                     <h3 id="str-title-feature-3"></h3>
                     <p id="str-content-feature-3"></p>
                 </div>
+
             </div>
 
             <h2 id="str-title-otherfeatures" style="margin-top: var(--spacing-xl);"></h2>
+
             <ul style="max-width: 900px; margin: 0 auto;">
                 <li id="str-content-otherfeatures-1"></li>
                 <li id="str-content-otherfeatures-2"></li>
@@ -85,20 +81,18 @@
                 <li id="str-content-otherfeatures-6"></li>
                 <li id="str-content-otherfeatures-7"></li>
                 <li id="str-content-otherfeatures-8"></li>
-                <li id="str-content-otherfeatures-10"></li>
-                <li id="str-content-otherfeatures-11"></li>
-                <li id="str-content-otherfeatures-12"></li>
+                <li id="str-content-otherfeatures-9"></li>
             </ul>
+
         </div>
     </section>
 
-    <!-- Download Section -->
     <section id="descarga" class="section">
         <div class="container">
+
             <h1 id="str-title-download"></h1>
-            
+
             <p id="str-content-download-1"></p>
-            
             <p id="str-content-download-2"></p>
 
             <div class="table-container">
@@ -112,6 +106,7 @@
                             <th id="str-tabletitle-recommended"></th>
                         </tr>
                     </thead>
+
                     <tbody>
                         <tr>
                             <td id="str-tablecontent-minram"></td>
@@ -129,59 +124,61 @@
             </div>
 
             <div class="section-header">
-                <img src="images/iso.svg" alt="ISO icon">
-                <h2 id="str-title-currentiso" margin: 0;></h2>
+                <img src="images/iso.svg" alt="">
+                <h2>OlivOS Verdial 0.9</h2>
             </div>
 
             <div class="downloads-grid">
+
                 <div class="download-card fade-in">
-                    <h2 id="str-title-downloadlink-1"></h2>
-                    <img src="images/cuerdos-standard.webp" alt="CuerdOS Standard screenshot" loading="lazy">
-                    <p id="str-content-downloadlink-1"></p>
-                    <div class="dropdown">
-                        <button id="str-button-kdeiso" class="btn"></button>
-                        <div class="dropdown-content">
-                            <a id="str-link-alternative1p" href="https://sourceforge.net/projects/cuerdos/files/stable/standard/CuerdOS-1.2.1-Standard_amd64.iso/download"></a>
-                            <a id="str-link-alternative2p" href="https://archive.org/download/cuerd-os-1.2.1-standard-amd-64/CuerdOS-1.2.1-Standard_amd64.iso"></a>
-                            <a id="str-link-alternative3p" href="https://archive.org/download/cuerd-os-1.2.1-standard-amd-64/cuerd-os-1.2.1-standard-amd-64_archive.torrent"></a>
+
+                    <img src="images/olivos-lqxt.webp" alt="" loading="lazy">
+
+                    <div class="download-content">
+
+                        <h2 id="str-title-downloadlink-1"></h2>
+
+                        <p id="str-content-downloadlink-1"></p>
+
+                        <div class="dropdown">
+                            <button class="btn">OlivOS-0.9-LxQt (x86_64) ▼</button>
+
+                            <div class="dropdown-content">
+                                <a href="https://sourceforge.net/projects/olivos/files/stable/standard/OlivOS-0.9-LxQt_amd64.iso/download">⭐ Sourceforge ⭐</a>
+                                <a href="https://archive.org/download/olivos-0.9-lxqt-amd-64/OlivOS-0.9-LxQt_amd64.iso">Archive</a>
+                                <a href="https://archive.org/download/olivos-0.9-lxqt-amd-64/olivos-0.9-lxqt-amd-64_archive.torrent">Torrent</a>
+                            </div>
                         </div>
-                    </div>
-                    <div style="margin-top: var(--spacing-sm);">
-                        <a id="str-link-checksump" href="checksums/standard-hash.txt" class="text-accent"></a>
+
+                        <div style="margin-top: var(--spacing-sm);">
+                            <a href="checksums/standard-hash.txt">Checksums</a>
+                        </div>
+
                     </div>
                 </div>
-                
-                <div class="download-card fade-in">
-                    <h2 id="str-title-downloadlink-2"></h2>
-                    <img src="images/cuerdos-legacy.webp" alt="CuerdOS Legacy screenshot" loading="lazy">
-                    <p id="str-content-downloadlink-2"></p>
-                    <div class="dropdown">
-                        <button id="str-button-lxqtiso" class="btn"></button>
-                        <div class="dropdown-content">
-                            <a id="str-link-alternative1l" href="https://sourceforge.net/projects/cuerdos/files/stable/legacy/CuerdOS-1.2.1-Legacy_amd64.iso/download"></a>
-                            <a id="str-link-alternative2l" href="https://archive.org/download/cuerd-os-1.2.1-legacy-amd-64/CuerdOS-1.2.1-Legacy_amd64.iso"></a>
-                            <a id="str-link-alternative3l" href="https://archive.org/download/cuerd-os-1.2.1-legacy-amd-64/cuerd-os-1.2.1-legacy-amd-64_archive.torrent"></a>
-                        </div>
-                    </div>
-                    <div style="margin-top: var(--spacing-sm);">
-                        <a id="str-link-checksuml" href="checksums/legacy-hash.txt" class="text-accent"></a>
-                    </div>
-                </div>
+
             </div>
-			
-            <p id="str-subtitle-upgradewarning" class="text-center" style="font-style: italic; color: var(--text-tertiary); margin-top: var(--spacing-lg);"></p>
-            
-            <p id="str-subtitle-logolicense" class="text-center" style="color: var(--text-tertiary); margin-top: var(--spacing-md);"></p>
+
+            <p id="str-subtitle-upgradewarning" class="text-center"
+               style="font-style: italic; color: var(--text-tertiary); margin-top: var(--spacing-lg);"></p>
+
+            <p id="str-subtitle-logolicense" class="text-center"
+               style="color: var(--text-tertiary); margin-top: var(--spacing-md);">
+
+                <a href="https://github.com/CuerdOS/logo">CuerdOS logo</a>
+                <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC-BY-SA-4.0</a>
+            </p>
+
         </div>
     </section>
 
-    <!-- Footer -->
     <footer>
         <div class="footer-content">
-            <span id="str-credits"></span>
+            <span id="str-credits">By CuerdOS Dev Team.</span>
+
             <div class="footer-links">
-                <a id="str-link-email" href="mailto:cuerdoslinux@proton.me"></a>
-                <a id="str-link-telegram" href="https://t.me/+GibSWjFc89Q2ODU8"></a>
+                <a href="mailto:cuerdoslinux@proton.me">E-Mail</a>
+                <a href="https://t.me/+GibSWjFc89Q2ODU8">Telegram</a>
             </div>
         </div>
     </footer>

@@ -1,0 +1,1086 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OlivOS — Manual de Usuario</title>
+<style>
+/* ===== RESET & BASE ===== */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --olivos-50:#f0fdf4;--olivos-100:#dcfce7;--olivos-200:#bbf7d0;
+  --olivos-300:#86efac;--olivos-400:#4ade80;--olivos-500:#22c55e;
+  --olivos-600:#16a34a;--olivos-700:#15803d;--olivos-800:#166534;
+  --olivos-900:#14532d;--olivos-950:#052e16;
+  --gray-50:#1a1f2b;--gray-100:#1e2433;--gray-200:#283040;
+  --gray-300:#3a4456;--gray-400:#6b7a8d;--gray-500:#8b9bb0;
+  --gray-600:#a0aec0;--gray-700:#c4cfdc;--gray-800:#dde3eb;
+  --gray-900:#edf0f5;
+  --bg:#0f1219;--bg-code:#1a2030;--bg-sidebar:#060d14;
+  --text:#dde3eb;--text-light:#8b9bb0;--text-sidebar:#bbf7d0;
+  --accent:#4ade80;--accent-hover:#22c55e;--accent-light:#0d2818;
+  --border:#283040;--radius:8px;--shadow:0 1px 3px rgba(0,0,0,.4);
+  --sidebar-w:280px;--header-h:60px;
+}
+html{scroll-behavior:smooth;scroll-padding-top:80px}
+body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;color:var(--text);background:var(--bg);line-height:1.7;font-size:16px}
+
+/* ===== SIDEBAR ===== */
+.sidebar{position:fixed;top:0;left:0;width:var(--sidebar-w);height:100vh;background:var(--bg-sidebar);color:var(--text-sidebar);overflow-y:auto;z-index:100;display:flex;flex-direction:column;transition:transform .3s ease}
+.sidebar-header{padding:20px;text-align:center;border-bottom:1px solid rgba(255,255,255,.1)}
+.sidebar-header img{width:64px;height:64px;margin-bottom:8px;filter:drop-shadow(0 2px 4px rgba(0,0,0,.3))}
+.sidebar-header h2{font-size:1.3rem;font-weight:700;color:#fff;letter-spacing:.5px}
+.sidebar-header span{font-size:.75rem;color:var(--olivos-300);display:block;margin-top:2px}
+.sidebar-nav{flex:1;padding:12px 0}
+.sidebar-nav a{display:flex;align-items:center;padding:8px 20px;color:var(--olivos-200);text-decoration:none;font-size:.875rem;transition:all .2s;border-left:3px solid transparent}
+.sidebar-nav a:hover{background:rgba(255,255,255,.07);color:#fff;border-left-color:var(--olivos-400)}
+.sidebar-nav a.active{background:rgba(255,255,255,.12);color:#fff;border-left-color:var(--olivos-400);font-weight:600}
+.sidebar-nav a .num{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:50%;background:rgba(255,255,255,.1);font-size:.7rem;margin-right:10px;flex-shrink:0}
+.sidebar-nav a.active .num{background:var(--olivos-600)}
+.sidebar-footer{padding:16px 20px;border-top:1px solid rgba(255,255,255,.1);text-align:center;font-size:.75rem;color:var(--olivos-400)}
+
+
+
+/* ===== MOBILE TOGGLE ===== */
+.menu-toggle{display:none;position:fixed;top:12px;left:12px;z-index:200;background:var(--accent);color:#fff;border:none;width:40px;height:40px;border-radius:50%;cursor:pointer;font-size:1.2rem;box-shadow:0 2px 8px rgba(0,0,0,.2)}
+
+/* ===== MAIN CONTENT ===== */
+.main{margin-left:var(--sidebar-w);min-height:100vh}
+.content{max-width:900px;margin:0 auto;padding:40px 48px 100px}
+
+/* ===== HEADER ===== */
+.doc-header{background:linear-gradient(135deg,#0a1a10,#040d07);color:#fff;padding:60px 48px;text-align:center;margin-bottom:0}
+.doc-header img{width:96px;height:96px;margin-bottom:16px;filter:drop-shadow(0 4px 12px rgba(0,0,0,.3))}
+.doc-header h1{font-size:2.4rem;font-weight:800;margin-bottom:8px}
+.doc-header p{font-size:1.1rem;color:var(--olivos-200);max-width:600px;margin:0 auto}
+.doc-header .version{display:inline-block;background:var(--olivos-600);padding:4px 14px;border-radius:20px;font-size:.8rem;margin-top:16px;font-weight:600}
+
+/* ===== SECTIONS ===== */
+.section{margin-bottom:56px;scroll-margin-top:80px}
+.section-title{font-size:1.75rem;font-weight:800;color:var(--olivos-300);margin-bottom:8px;padding-bottom:8px;border-bottom:3px solid var(--olivos-500);display:flex;align-items:center;gap:12px}
+.section-title .icon{display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;background:var(--accent-light);color:var(--accent);border-radius:10px;font-size:1.1rem;flex-shrink:0;border:1px solid rgba(74,222,128,.15)}
+.subsection-title{font-size:1.25rem;font-weight:700;color:var(--olivos-300);margin:28px 0 12px;padding-left:12px;border-left:4px solid var(--olivos-500)}
+.subsubsection-title{font-size:1.05rem;font-weight:600;color:var(--gray-500);margin:20px 0 8px}
+
+/* ===== TEXT ===== */
+p{margin-bottom:14px;color:var(--gray-700)}
+strong{color:var(--gray-900)}
+a{color:var(--accent);text-decoration:none;font-weight:500}
+a:hover{text-decoration:underline}
+
+/* ===== LISTS ===== */
+ul,ol{margin:12px 0 16px 24px;color:var(--gray-700)}
+li{margin-bottom:6px}
+li::marker{color:var(--accent)}
+
+/* ===== CODE ===== */
+code{background:var(--bg-code);color:var(--olivos-300);padding:2px 7px;border-radius:4px;font-family:'SFMono-Regular',Consolas,'Liberation Mono',Menlo,monospace;font-size:.875em;border:1px solid var(--border)}
+pre{background:#0d1117;color:#e2e8f0;padding:20px 24px;border-radius:var(--radius);overflow-x:auto;margin:16px 0;font-size:.875rem;line-height:1.6;border:1px solid var(--border)}
+pre code{background:none;color:inherit;padding:0;border:none;font-size:inherit}
+.code-label{display:block;font-size:.75rem;color:var(--gray-400);margin-bottom:-12px;font-weight:600;text-transform:uppercase;letter-spacing:.5px}
+pre .comment{color:#7c8a96}
+pre .cmd{color:#7dd3fc}
+pre .flag{color:#c4b5fd}
+pre .output{color:#94a3b8}
+pre .highlight{color:#4ade80;font-weight:600}
+
+/* ===== CALLOUTS ===== */
+.callout{padding:16px 20px;border-radius:var(--radius);margin:18px 0;border-left:4px solid;overflow:visible;word-wrap:break-word;overflow-wrap:break-word}
+.callout-info{background:#0c1929;border-color:#3b82f6;color:#93c5fd}
+.callout-info strong{color:#bfdbfe}
+.callout-warn{background:#1a1505;border-color:#f59e0b;color:#fcd34d}
+.callout-warn strong{color:#fde68a}
+.callout-tip{background:var(--accent-light);border-color:var(--accent);color:var(--olivos-300)}
+.callout-tip strong{color:var(--olivos-200)}
+.callout-danger{background:#1a0a0a;border-color:#ef4444;color:#fca5a5}
+.callout-danger strong{color:#fecaca}
+.callout p:last-child{margin-bottom:0}
+
+/* ===== TABLES ===== */
+.table-wrap{overflow-x:auto;margin:16px 0}
+table{width:100%;border-collapse:collapse;font-size:.9rem}
+th{background:#0a1a10;color:var(--olivos-200);padding:10px 16px;text-align:left;font-weight:600;white-space:nowrap;border-bottom:2px solid var(--olivos-600)}
+td{padding:10px 16px;border-bottom:1px solid var(--border);color:var(--gray-700)}
+tr:nth-child(even) td{background:var(--gray-50)}
+tr:hover td{background:var(--accent-light)}
+
+/* ===== CARDS ===== */
+.card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px;margin:20px 0}
+.card{background:var(--gray-50);border:1px solid var(--border);border-radius:var(--radius);padding:20px;transition:all .2s;overflow:visible;word-wrap:break-word;overflow-wrap:break-word}
+.card:hover{border-color:var(--olivos-400);box-shadow:0 4px 16px rgba(74,222,128,.08)}
+.card h4{color:var(--olivos-300);font-size:1rem;margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.card p{font-size:.875rem;margin-bottom:0;line-height:1.5}
+
+/* ===== STEPS ===== */
+.steps{counter-reset:step;list-style:none;margin:16px 0;padding:0}
+.steps li{counter-increment:step;position:relative;padding:12px 16px 12px 52px;margin-bottom:8px;background:var(--gray-50);border-radius:var(--radius);border:1px solid var(--border);color:var(--gray-700)}
+.steps li::before{content:counter(step);position:absolute;left:12px;top:50%;transform:translateY(-50%);width:28px;height:28px;background:var(--accent);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.85rem}
+
+/* ===== KEY ===== */
+kbd{background:var(--gray-200);border:1px solid var(--gray-300);border-bottom:2px solid var(--gray-400);border-radius:4px;padding:2px 6px;font-size:.8rem;font-family:inherit;color:var(--gray-600)}
+
+/* ===== PLACEHOLDER SECTION ===== */
+.placeholder-section{background:repeating-linear-gradient(45deg,var(--gray-50),var(--gray-50) 10px,var(--gray-100) 10px,var(--gray-100) 20px);border:2px dashed var(--gray-300);border-radius:var(--radius);padding:32px;text-align:center;margin:24px 0}
+.placeholder-section h3{color:var(--gray-500);margin-bottom:8px}
+.placeholder-section p{color:var(--gray-400);font-style:italic}
+
+/* ===== FOOTER ===== */
+.doc-footer{background:#080b10;color:var(--gray-500);padding:32px 48px;text-align:center;font-size:.85rem;margin-top:0}
+.doc-footer a{color:var(--olivos-400)}
+.doc-footer .links{display:flex;gap:24px;justify-content:center;margin-bottom:16px;flex-wrap:wrap}
+.doc-footer .links a{font-weight:500}
+
+/* ===== BACK TO TOP ===== */
+.back-top{position:fixed;bottom:24px;right:24px;width:44px;height:44px;background:var(--accent);color:#fff;border:none;border-radius:50%;cursor:pointer;font-size:1.2rem;box-shadow:0 4px 12px rgba(0,0,0,.2);opacity:0;transform:translateY(20px);transition:all .3s;z-index:90}
+.back-top.visible{opacity:1;transform:translateY(0)}
+.back-top:hover{background:var(--accent-hover)}
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:1024px){
+  .sidebar{transform:translateX(-100%)}
+  .sidebar.open{transform:translateX(0)}
+  .menu-toggle{display:flex;align-items:center;justify-content:center}
+  .main{margin-left:0}
+  .content,.doc-header{padding-left:24px;padding-right:24px}
+  .doc-header h1{font-size:1.8rem}
+}
+@media(max-width:600px){
+  .content{padding:24px 16px 60px}
+  .doc-header{padding:40px 16px}
+  .doc-header h1{font-size:1.5rem}
+  .section-title{font-size:1.35rem}
+  .card-grid{grid-template-columns:1fr}
+  .table-wrap{font-size:.8rem}
+  th,td{padding:8px 10px}
+}
+</style>
+</head>
+<body>
+
+<!-- Mobile menu toggle -->
+<button class="menu-toggle" onclick="toggleSidebar()" aria-label="Menu">&#9776;</button>
+
+<!-- ===== SIDEBAR ===== -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-header">
+    <img src="images/olivos-logo.svg" alt="OlivOS Logo" onclick="window.location.href='index.html'">
+    <h2>OlivOS</h2>
+    <span>Manual de Usuario v0.9</span>
+
+  </div>
+  <nav class="sidebar-nav" id="sidebar-nav">
+    <a href="#introduccion" class="active"><span class="num">1</span> <span id="str-nav-intro">Introducci&oacute;n a OlivOS</span></a>
+    <a href="#requisitos"><span class="num">2</span> <span id="str-nav-req">Requisitos del sistema</span></a>
+    <a href="#medios"><span class="num">3</span> <span id="str-nav-media">Creaci&oacute;n de medios de instalaci&oacute;n</span></a>
+    <a href="#instalacion"><span class="num">4</span> <span id="str-nav-install">Instalaci&oacute;n de OlivOS</span></a>
+    <a href="#primer-arranque"><span class="num">5</span> <span id="str-nav-firstboot">Primer arranque y escritorio</span></a>
+    <a href="#internet"><span class="num">6</span> <span id="str-nav-internet">Conexi&oacute;n a internet</span></a>
+    <a href="#actualizar"><span class="num">7</span> <span id="str-nav-update">Actualizaci&oacute;n del sistema</span></a>
+    <a href="#packages"><span class="num">8</span> <span id="str-nav-packages">Gesti&oacute;n de paquetes</span></a>
+    <a href="#runitctl"><span class="num">9</span> <span id="str-nav-runitctl">Gesti&oacute;n de servicios con runitctl</span></a>
+    <a href="#audio-graficos"><span class="num">10</span> <span id="str-nav-drivers">Audio, gr&aacute;ficos y controladores</span></a>
+    <a href="#solucion"><span class="num">11</span> <span id="str-nav-trouble">Soluci&oacute;n de problemas</span></a>
+    <a href="#comandos"><span class="num">12</span> <span id="str-nav-commands">Comandos &uacute;tiles de la terminal</span></a>
+    <a href="#faq"><span class="num">13</span> <span id="str-nav-faq">Preguntas frecuentes</span></a>
+  </nav>
+  <div class="sidebar-footer">
+    OlivOS Linux &middot; GPLv3
+  </div>
+</aside>
+
+<!-- ===== MAIN ===== -->
+<main class="main">
+
+<!-- HEADER -->
+<header class="doc-header">
+  <img src="images/olivos-logo.svg" alt="OlivOS Logo">
+  <h1 id="str-header-title">Manual de Usuario de OlivOS</h1>
+  <p id="str-header-subtitle">Todo lo que necesitas saber para comenzar con OlivOS, la distribuci&oacute;n Linux de escritorio moderna, optimizada y lista para usar.</p>
+  <span class="version">v0.9 Alpha</span>
+</header>
+
+<div class="content">
+
+<!-- ============================================ -->
+<!-- SECTION 1: INTRODUCCION                      -->
+<!-- ============================================ -->
+<section class="section" id="introduccion">
+  <h2 class="section-title"><span class="icon">1</span> <span id="str-s1-title">Introducci&oacute;n a OlivOS</span></h2>
+
+  <h3 class="subsection-title" id="str-s1-what">&iquest;Qu&eacute; es OlivOS?</h3>
+  <p id="str-s1-p1">OlivOS es una distribuci&oacute;n Linux de escritorio basada en <strong>Void Linux</strong>, dise&ntilde;ada para ofrecer una experiencia moderna, optimizada y accesible. Su objetivo principal es combinar las &uacute;ltimas tecnolog&iacute;as del ecosistema Linux con un consumo de recursos responsable, de modo que puedas disfrutar de un escritorio completo y funcional sin sacrificar el rendimiento de tu equipo.</p>
+  <p id="str-s1-p2">A diferencia de muchas distribuciones que priorizan lo ligero eliminando funcionalidades, OlivOS apuesta por un enfoque equilibrado: incluye herramientas modernas como <strong>PipeWire</strong> para el audio, <strong>Wayland</strong> a trav&eacute;s de <strong>LabWC</strong> como compositor gr&aacute;fico, y tecnolog&iacute;as de optimizaci&oacute;n como <strong>zram</strong>, <strong>TLP</strong> y <strong>ananicy</strong>, todo ello preconfigurado para que el sistema funcione de forma &oacute;ptima desde el primer momento.</p>
+  <p id="str-s1-p3">OlivOS es un proyecto derivado de la experiencia acumulada en <strong>CuerdOS Linux</strong>, otra distribuci&oacute;n mantenida por el mismo desarrollador durante a&ntilde;os. Mientras que CuerdOS tiene su propia identidad y trayectoria, OlivOS nace como un port renovado que aprovecha la solidez de Void Linux como base, a&ntilde;adiendo su propio escritorio, herramientas personalizadas y repositorios de paquetes para ofrecer una experiencia coherente y pulida.</p>
+
+  <h3 class="subsection-title" id="str-s1-why">&iquest;Por qu&eacute; Void Linux?</h3>
+  <p id="str-s1-p4">Void Linux es una distribuci&oacute;n independiente conocida por su estabilidad, simplicidad y rendimiento. Utiliza <strong>xbps</strong> como gestor de paquetes &mdash;r&aacute;pido y ligero&mdash; y <strong>runit</strong> como sistema de inicio, que destaca por su velocidad de arranque y su filosof&iacute;a minimalista. Estas caracter&iacute;sticas lo convierten en una base ideal para una distribuci&oacute;n de escritorio que busca la eficiencia sin renunciar a la funcionalidad moderna.</p>
+
+  <h3 class="subsection-title" id="str-s1-features">Caracter&iacute;sticas principales</h3>
+  <div class="card-grid">
+    <div class="card">
+      <h4>&#127918; Escritorio moderno</h4>
+      <p id="str-s1-card1">LXQt con LabWC (Wayland) ofrece un escritorio ligero y visualmente atractivo con soporte nativo para Wayland, el protocolo gr&aacute;fico del futuro.</p>
+    </div>
+    <div class="card">
+      <h4>&#9889; Rendimiento optimizado</h4>
+      <p id="str-s1-card2">zram, TLP y ananicy trabajan juntos para maximizar el rendimiento de tu hardware, ya sea un equipo potente o uno m&aacute;s modesto.</p>
+    </div>
+    <div class="card">
+      <h4>&#128264; Audio moderno</h4>
+      <p id="str-s1-card3">PipeWire con WirePlumber como gestor de sesi&oacute;n proporciona audio y v&iacute;deo de baja latencia, compatible con aplicaciones PulseAudio y JACK.</p>
+    </div>
+    <div class="card">
+      <h4>&#128295; Herramientas propias</h4>
+      <p id="str-s1-card4">runitctl para gestionar servicios, opkg como gestor de paquetes simplificado, Almazara como instalador gr&aacute;fico y OlivOS-Welcome para tu primera configuraci&oacute;n.</p>
+    </div>
+    <div class="card">
+      <h4>&#128230; Repositorios propios</h4>
+      <p id="str-s1-card5">OlivOS incluye sus propios repositorios en packages.olivoslinux.com con software seleccionado y optimizado para la distribuci&oacute;n.</p>
+    </div>
+    <div class="card">
+      <h4>&#128051; Kernel personalizado</h4>
+      <p id="str-s1-card6">El kernel de Linux se compila semanalmente con configuraciones optimizadas para el escritorio OlivOS, ofreciendo las &uacute;ltimas correcciones y mejoras.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================ -->
+<!-- SECTION 2: REQUISITOS                        -->
+<!-- ============================================ -->
+<section class="section" id="requisitos">
+  <h2 class="section-title"><span class="icon">2</span> <span id="str-s2-title">Requisitos del sistema</span></h2>
+
+  <p id="str-s2-p1">OlivOS est&aacute; dise&ntilde;ado para funcionar de forma eficiente en una amplia gama de hardware. Gracias a las optimizaciones integradas como zram y el escritorio LXQt, el sistema puede ejecutarse en equipos con recursos limitados, aunque la experiencia &oacute;ptima se obtiene con las especificaciones recomendadas.</p>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th id="str-s2-th1">Componente</th>
+          <th id="str-s2-th2">M&iacute;nimo</th>
+          <th id="str-s2-th3">Recomendado</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong id="str-s2-td1-proc">Procesador</strong></td>
+          <td id="str-s2-td1-min">Cualquier CPU x86_64</td>
+          <td id="str-s2-td1-rec">1.5 GHz, 2 n&uacute;cleos, 2 hilos</td>
+        </tr>
+        <tr>
+          <td><strong id="str-s2-td2-ram">Memoria RAM</strong></td>
+          <td id="str-s2-td2-min">2 GB</td>
+          <td id="str-s2-td2-rec">4 GB o m&aacute;s</td>
+        </tr>
+        <tr>
+          <td><strong id="str-s2-td3-disk">Disco</strong></td>
+          <td id="str-s2-td3-min">50 GB (SSD preferible)</td>
+          <td id="str-s2-td3-rec">100 GB SSD</td>
+        </tr>
+        <tr>
+          <td><strong id="str-s2-td4-gpu">Tarjeta gr&aacute;fica</strong></td>
+          <td id="str-s2-td4-min">Cualquier GPU con soporte en Linux</td>
+          <td id="str-s2-td4-rec">GPU con drivers libres o NVIDIA</td>
+        </tr>
+        <tr>
+          <td><strong id="str-s2-td5-boot">Modo de arranque</strong></td>
+          <td colspan="2" style="text-align:center" id="str-s2-td5-val">UEFI y BIOS/Legacy</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout callout-tip">
+    <p id="str-s2-tip"><strong>Consejo sobre zram:</strong> OlivOS utiliza zram para comprimir parte de la RAM y usarla como swap. Esto significa que con 2 GB de RAM f&iacute;sica, el sistema puede manejar m&aacute;s carga de la que esperar&iacute;as, ya que zram le da un &quot;respiradero&quot; al sistema. No obstante, para uso intensivo (navegaci&oacute;n con muchas pesta&ntilde;as, edici&oacute;n de im&aacute;genes, etc.), 4 GB o m&aacute;s hacen una diferencia notable.</p>
+  </div>
+
+  <h3 class="subsection-title" id="str-s2-arch">Arquitectura soportada</h3>
+  <p id="str-s2-p2">Actualmente OlivOS est&aacute; disponible para la arquitectura <strong>x86_64</strong> (AMD64). Se planea en el futuro aportar soporte para dispositivos <strong>ARM</strong>, lo que permitir&aacute; ejecutar OlivOS en placas como Raspberry Pi u otros dispositivos de esa arquitectura.</p>
+</section>
+
+<!-- ============================================ -->
+<!-- SECTION 3: MEDIOS DE INSTALACION             -->
+<!-- ============================================ -->
+<section class="section" id="medios">
+  <h2 class="section-title"><span class="icon">3</span> <span id="str-s3-title">Creaci&oacute;n de medios de instalaci&oacute;n</span></h2>
+
+  <p id="str-s3-p1">Para instalar OlivOS necesitas crear un medio de arranque (USB o DVD) con la imagen ISO del sistema. Esta imagen se puede descargar desde la p&aacute;gina oficial del proyecto y se graba en una memoria USB para arrancar el sistema en modo &quot;live&quot; &mdash;es decir, puedes probar OlivOS sin instalarlo&mdash; y, cuando est&eacute;s listo, iniciar el instalador gr&aacute;fico Almazara.</p>
+
+  <h3 class="subsection-title" id="str-s3-download">Descarga de la ISO</h3>
+  <p id="str-s3-p2">La imagen ISO de OlivOS se puede descargar desde la p&aacute;gina oficial:</p>
+  <p style="text-align:center;margin:12px 0"><a href="https://olivoslinux.com" target="_blank" style="font-size:1.1rem;font-weight:700">olivoslinux.com</a></p>
+  <p id="str-s3-p3">Una vez descargada, verifica que el archivo no est&eacute; corrupto. Si la p&aacute;gina proporciona sumas de verificaci&oacute;n (SHA256), comp&aacute;ralas con la de tu archivo descargado:</p>
+  <pre><code>sha256sum OlivOS-0.9-x86_64.iso</code></pre>
+
+  <h3 class="subsection-title" id="str-s3-usb">Crear USB de arranque</h3>
+
+  <h4 class="subsubsection-title" id="str-s3-usb-linux">En Linux</h4>
+  <p id="str-s3-p4">El m&eacute;todo m&aacute;s directo es usar <code>dd</code>, que copia la imagen byte a byte al dispositivo USB. Ten mucho cuidado de indicar el dispositivo correcto, ya que este proceso borra todo el contenido del USB.</p>
+  <pre><code><span class="comment"># Encuentra tu dispositivo USB (por ejemplo, /dev/sdX)</span>
+lsblk
+
+<span class="comment"># Graba la ISO en el USB (reemplaza X por la letra correcta)</span>
+sudo dd if=OlivOS-0.9-x86_64.iso of=/dev/sdX bs=4M status=progress && sync</code></pre>
+
+  <p id="str-s3-p5">Tambi&eacute;n puedes usar herramientas gr&aacute;ficas como <strong>USBImager</strong> o <strong>Ventoy</strong> si prefieres una interfaz visual.</p>
+
+  <h4 class="subsubsection-title" id="str-s3-usb-win">En Windows</h4>
+  <p id="str-s3-p6">Puedes usar <strong>Rufus</strong> o <strong>balenaEtcher</strong> para crear el USB de arranque de forma sencilla:</p>
+  <ol>
+    <li id="str-s3-win-1">Descarga e instala Rufus desde <a href="https://rufus.ie" target="_blank">rufus.ie</a>.</li>
+    <li id="str-s3-win-2">Inserta tu memoria USB.</li>
+    <li id="str-s3-win-3">Selecciona la ISO de OlivOS y el dispositivo USB.</li>
+    <li id="str-s3-win-4">Escribe la imagen en modo <strong>DD</strong> (no ISO) si Rufus te lo pregunta.</li>
+    <li id="str-s3-win-5">Haz clic en &quot;Empezar&quot; y espera a que finalice.</li>
+  </ol>
+
+  <h4 class="subsubsection-title" id="str-s3-usb-mac">En macOS</h4>
+  <pre><code><span class="comment"># Identifica el dispositivo USB</span>
+diskutil list
+
+<span class="comment"># Graba la ISO (reemplaza X por el n&uacute;mero correcto)</span>
+sudo dd if=OlivOS-0.9-x86_64.iso of=/dev/diskX bs=4m</code></pre>
+
+  <div class="callout callout-warn">
+    <p id="str-s3-warn"><strong>Importante:</strong> El proceso <code>dd</code> borra todo el contenido del USB. Aseg&uacute;rate de que el dispositivo indicado es correcto antes de ejecutar el comando. Un error puede sobrescribir datos de tu disco duro.</p>
+  </div>
+</section>
+
+<!-- ============================================ -->
+<!-- SECTION 4: INSTALACION                       -->
+<!-- ============================================ -->
+<section class="section" id="instalacion">
+  <h2 class="section-title"><span class="icon">4</span> <span id="str-s4-title">Instalaci&oacute;n de OlivOS</span></h2>
+
+  <p id="str-s4-p1">OlivOS utiliza <strong>Almazara Installer</strong>, un instalador gr&aacute;fico desarrollado en Python con PySide6 (Qt6) que te guiar&aacute; paso a paso por todo el proceso de instalaci&oacute;n. Su interfaz est&aacute; dise&ntilde;ada para ser intuitiva, incluso si nunca has instalado un sistema Linux antes.</p>
+
+  <h3 class="subsection-title" id="str-s4-boot">Arrancar desde el USB</h3>
+  <ol class="steps">
+    <li id="str-s4-step1">Inserta el USB de arranque en el equipo donde quieres instalar OlivOS.</li>
+    <li id="str-s4-step2">Enciende (o reinicia) el equipo y accede a la BIOS/UEFI para seleccionar el USB como dispositivo de arranque. Normalmente se accede pulsando <kbd>F2</kbd>, <kbd>F12</kbd>, <kbd>Esc</kbd> o <kbd>Del</kbd> durante el arranque (depende del fabricante).</li>
+    <li id="str-s4-step3">Selecciona &quot;OlivOS&quot; en el men&uacute; de arranque. El sistema se cargar&aacute; en modo &quot;live&quot;.</li>
+  </ol>
+
+  <h3 class="subsection-title" id="str-s4-live">Sesión live</h3>
+  <p id="str-s4-p2">Al arrancar en modo live, OlivOS se ejecuta &iacute;ntegramente desde el USB sin tocar tu disco duro. Esto te permite explorar el escritorio, probar que tu hardware funciona correctamente y, cuando est&eacute;s listo, lanzar el instalador desde la aplicaci&oacute;n <strong>OlivOS-Welcome</strong> que aparece al inicio. Simplemente haz clic en el bot&oacute;n <strong>&quot;Instalar OlivOS&quot;</strong>.</p>
+
+  <h3 class="subsection-title" id="str-s4-almazara">Pasos del instalador Almazara</h3>
+
+  <p id="str-s4-p3">Almazara te guiar&aacute; a trav&eacute;s de seis p&aacute;ginas consecutivas. A continuaci&oacute;n se describe cada una de ellas en el orden en que aparecen:</p>
+
+  <h4 class="subsubsection-title" id="str-s4-page1">P&aacute;gina 1 — Inicio</h4>
+  <p id="str-s4-p4">La primera p&aacute;gina del instalador te permite seleccionar el <strong>idioma de la interfaz</strong> del propio instalador. Adem&aacute;s, Almazara detecta autom&aacute;ticamente si tu equipo tiene conexi&oacute;n a internet. Esta detecci&oacute;n es importante porque, si est&aacute;s online, el instalador podr&aacute; sincronizar los repositorios de paquetes m&aacute;s recientes y ofrecerte las &uacute;ltimas versiones disponibles. Si est&aacute;s offline, la instalaci&oacute;n se realizar&aacute; con los paquetes incluidos en la ISO.</p>
+
+  <h4 class="subsubsection-title" id="str-s4-page2">P&aacute;gina 2 — Zona horaria, locales y teclado</h4>
+  <p id="str-s4-p5">En esta p&aacute;gina configurar&aacute;s los ajustes regionales b&aacute;sicos del sistema:</p>
+  <ul>
+    <li id="str-s4-cfg-tz"><strong>Zona horaria:</strong> Selecciona tu ubicaci&oacute;n geogr&aacute;fica para que el sistema muestre la hora correcta.</li>
+    <li id="str-s4-cfg-locale"><strong>Locale (idioma del sistema):</strong> Define el idioma y los formatos regionales (fecha, n&uacute;meros, etc.) que usar&aacute; el sistema.</li>
+    <li id="str-s4-cfg-keymap"><strong>Distribuci&oacute;n del teclado:</strong> Elige el mapa de teclado correspondiente a tu teclado f&iacute;sico (es, en, latam, etc.).</li>
+  </ul>
+
+  <h4 class="subsubsection-title" id="str-s4-page3">P&aacute;gina 3 — Repositorios y controladores</h4>
+  <p id="str-s4-p6">Esta p&aacute;gina solo aparece cuando el instalador se ejecuta en modo <strong>online</strong>. Si seleccionaste modo offline en la primera p&aacute;gina, esta p&aacute;gina se omite y la instalaci&oacute;n se realiza con los paquetes incluidos en la ISO. En modo online, puedes configurar los or&iacute;genes de software y los controladores adicionales:</p>
+  <ul>
+    <li id="str-s4-cfg-mirror"><strong>Repositorios (mirrors):</strong> Selecciona los servidores de paquetes m&aacute;s r&aacute;pidos para tu ubicaci&oacute;n. OlivOS utiliza los repositorios oficiales de Void Linux m&aacute;s su propio repositorio en packages.olivoslinux.com.</li>
+    <li id="str-s4-cfg-nonfree"><strong>Repositorios non-free:</strong> Puedes habilitar los repositorios de software privativo, necesarios para ciertos controladores y firmware.</li>
+    <li id="str-s4-drv-nvidia"><strong>Drivers NVIDIA:</strong> Si tu equipo tiene una tarjeta gr&aacute;fica NVIDIA, puedes instalar los drivers propietarios directamente desde aqu&iacute;. Si tu GPU es AMD o Intel, no necesitas esta opci&oacute;n, ya que los drivers libres funcionan de serie.</li>
+    <li id="str-s4-drv-intel"><strong>Microc&oacute;digo Intel:</strong> Actualizaciones de microc&oacute;digo para procesadores Intel que corrigen errores y vulnerabilidades a nivel de hardware.</li>
+  </ul>
+
+  <h4 class="subsubsection-title" id="str-s4-page4">P&aacute;gina 4 — Usuario y hostname</h4>
+  <p id="str-s4-p7">En esta p&aacute;gina configurar&aacute;s la identidad de tu equipo y tu cuenta de usuario:</p>
+  <ul>
+    <li id="str-s4-cfg-host"><strong>Hostname:</strong> El nombre que identificar&aacute; a tu equipo en la red local (por ejemplo, &quot;olivos-pc&quot;).</li>
+    <li id="str-s4-cfg-name"><strong>Nombre completo:</strong> Tu nombre real, que se mostrar&aacute; en la pantalla de inicio de sesi&oacute;n y en otras partes del sistema.</li>
+    <li id="str-s4-cfg-user"><strong>Nombre de usuario:</strong> El identificador de tu cuenta (sin espacios ni caracteres especiales).</li>
+    <li id="str-s4-cfg-pass"><strong>Contrase&ntilde;a:</strong> La contrase&ntilde;a para tu cuenta de usuario y la contrase&ntilde;a de root (administrador), ambas obligatorias.</li>
+  </ul>
+
+  <h4 class="subsubsection-title" id="str-s4-page5">P&aacute;gina 5 — Discos y particionado</h4>
+  <p id="str-s4-p8">Esta es la p&aacute;gina m&aacute;s importante del instalador. Aqu&iacute; seleccionar&aacute;s el disco donde instalar OlivOS y c&oacute;mo se particionar&aacute;:</p>
+  <ul>
+    <li id="str-s4-part-auto"><strong>Particionado autom&aacute;tico:</strong> Almazara ejecutar&aacute; un script (<code>auto_partition.sh</code>) que crear&aacute; autom&aacute;ticamente un esquema de partici&oacute;n b&aacute;sico en el disco seleccionado (ra&iacute;z, EFI, swap). Es la opci&oacute;n m&aacute;s r&aacute;pida si quieres instalar OlivOS en un disco entero.</li>
+    <li id="str-s4-part-manual"><strong>Particionado manual:</strong> Puedes abrir <strong>KDE Partition Manager</strong> directamente desde el instalador para crear, redimensionar o eliminar particiones a tu gusto. Esto es &uacute;til si quieres conservar otros sistemas operativos o tener un esquema personalizado.</li>
+  </ul>
+  <p id="str-s4-p9">Despu&eacute;s de particionar (ya sea autom&aacute;tica o manualmente), debes indicar qu&eacute; funci&oacute;n cumple cada partici&oacute;n usando los men&uacute;s desplegables del instalador: EFI, ra&iacute;z (<code>/</code>), <code>/home</code> o swap. Los sistemas de archivos soportados son <strong>ext4/3/2</strong>, <strong>btrfs</strong> y <strong>xfs</strong> para ra&iacute;z y home; <strong>FAT/VFAT</strong> para EFI.</p>
+
+  <div class="callout callout-info">
+    <p id="str-s4-info-dual"><strong>Instalaci&oacute;n junto a otro sistema:</strong> Almazara no ofrece una opci&oacute;n autom&aacute;tica para instalar OlivOS junto a otro sistema operativo, pero es posible hacerlo particionando manualmente con KDE Partition Manager y seleccionando las particiones correspondientes en el instalador. Aseg&uacute;rate de dejar espacio libre sin asignar antes de iniciar.</p>
+  </div>
+
+  <h4 class="subsubsection-title" id="str-s4-page6">P&aacute;gina 6 — Instalaci&oacute;n en progreso</h4>
+  <p id="str-s4-p10">Una vez revisada toda la configuraci&oacute;n, haz clic en &quot;Instalar&quot;. Almazara comenzar&aacute; el proceso de copia del sistema al disco. El instalador muestra una barra de progreso animada y, opcionalmente, un terminal de registro en tiempo real para que puedas seguir el avance de la instalaci&oacute;n. La interfaz permanece siempre respondiendo gracias a que el proceso se ejecuta en un hilo separado. Las tareas que se realizan autom&aacute;ticamente son:</p>
+  <ol>
+    <li id="str-s4-ins-1">Copiar el sistema base al disco.</li>
+    <li id="str-s4-ins-2">Generar el archivo <code>fstab</code> con las particiones configuradas.</li>
+    <li id="str-s4-ins-3">Crear el usuario y configurar las contrase&ntilde;as.</li>
+    <li id="str-s4-ins-4">Establecer el idioma, zona horaria y teclado.</li>
+    <li id="str-s4-ins-5">Regenerar el initramfs (imagen de arranque del kernel).</li>
+    <li id="str-s4-ins-6">Instalar el gestor de arranque GRUB.</li>
+  </ol>
+
+  <div class="callout callout-warn">
+    <p id="str-s4-warn-luks"><strong>Sobre el cifrado:</strong> Almazara no ofrece cifrado de disco (LUKS) de forma autom&aacute;tica. Si necesitas cifrar tu disco, deber&aacute;s preparar las particiones cifradas manualmente antes de ejecutar el instalador y luego seleccionarlas en el paso de particionado.</p>
+  </div>
+</section>
+
+<!-- ============================================ -->
+<!-- SECTION 5: PRIMER ARRANQUE                   -->
+<!-- ============================================ -->
+<section class="section" id="primer-arranque">
+  <h2 class="section-title"><span class="icon">5</span> <span id="str-s5-title">Primer arranque y descripci&oacute;n general del escritorio</span></h2>
+
+  <h3 class="subsection-title" id="str-s5-firstboot">Tu primer inicio</h3>
+  <p id="str-s5-p1">Despu&eacute;s de la instalaci&oacute;n, retira el USB y reinicia el equipo. OlivOS arrancar&aacute; desde tu disco duro y, tras cargar el sistema, ver&aacute;s la pantalla de inicio de sesi&oacute;n (SDDM). Introduce tu nombre de usuario y contrase&ntilde;a para acceder al escritorio.</p>
+  <p id="str-s5-p2">La primera vez que entres, se abrir&aacute; autom&aacute;ticamente la aplicaci&oacute;n <strong>OlivOS-Welcome</strong>, que te da acceso r&aacute;pido a varias funciones &uacute;tiles para configurar tu sistema reci&eacute;n instalado.</p>
+
+  <h3 class="subsection-title" id="str-s5-welcome">OlivOS-Welcome</h3>
+  <p id="str-s5-p3">La pantalla de bienvenida ofrece las siguientes opciones:</p>
+  <div class="card-grid">
+    <div class="card">
+      <h4>&#128230; Actualizar sistema</h4>
+      <p id="str-s5-wc1">Lanza una actualizaci&oacute;n completa del sistema para asegurarte de tener las &uacute;ltimas versiones de todos los paquetes.</p>
+    </div>
+    <div class="card">
+      <h4>&#127760; P&aacute;gina oficial</h4>
+      <p id="str-s5-wc2">Enlace directo a olivoslinux.com para noticias, documentaci&oacute;n y soporte.</p>
+    </div>
+    <div class="card">
+      <h4>&#128722; Tienda de aplicaciones</h4>
+      <p id="str-s5-wc3">Acceso al gestor gr&aacute;fico de paquetes para instalar software adicional.</p>
+    </div>
+    <div class="card">
+      <h4>&#128187; Informaci&oacute;n del sistema</h4>
+      <p id="str-s5-wc4">Muestra detalles sobre tu hardware, versi&oacute;n del sistema y kernel.</p>
+    </div>
+    <div class="card">
+      <h4>&#128260; Gestor de recuperaci&oacute;n</h4>
+      <p id="str-s5-wc5">Acceso a Timeshift para crear y restaurar instant&aacute;neas del sistema.</p>
+    </div>
+    <div class="card">
+      <h4>&#128214; Wiki oficial</h4>
+      <p id="str-s5-wc6">Documentaci&oacute;n extendida y gu&iacute;as detalladas sobre OlivOS.</p>
+    </div>
+  </div>
+  <p id="str-s5-p4">Si no quieres que Welcome se abra cada vez que inicias sesi&oacute;n, simplemente desmarca la casilla <strong>&quot;Mostrar al inicio&quot;</strong> que aparece en la ventana. Siempre puedes volver a abrirlo desde el men&uacute; de aplicaciones.</p>
+
+  <h3 class="subsection-title" id="str-s5-desktop">El escritorio LXQt + LabWC</h3>
+  <p id="str-s5-p5">OlivOS utiliza <strong>LXQt</strong> como entorno de escritorio, combinado con <strong>LabWC</strong> como compositor Wayland. LXQt es un escritorio ligero y r&aacute;pido que no consume muchos recursos, mientras que LabWC aporta las capacidades gr&aacute;ficas modernas de Wayland: composici&oacute;n fluida, mejor gesti&oacute;n de ventanas y preparaci&oacute;n para el futuro del escritorio Linux.</p>
+  <p id="str-s5-p6">El tema visual de OlivOS es propio, con una paleta de colores verdes org&aacute;nicos y agradables inspirados en la naturaleza del olivo, y un estilo similar a Breeze (el tema de KDE). El resultado es un escritorio coherente, moderno y con personalidad propia.</p>
+
+  <h3 class="subsection-title" id="str-s5-apps">Aplicaciones preinstaladas</h3>
+  <p id="str-s5-p7">OlivOS incluye un conjunto de aplicaciones cuidadosamente seleccionadas para cubrir las necesidades m&aacute;s comunes desde el primer momento:</p>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th id="str-s5-app-cat">Categor&iacute;a</th>
+          <th id="str-s5-app-name">Aplicaci&oacute;n</th>
+          <th id="str-s5-app-desc">Descripci&oacute;n</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td id="str-s5-cat-web">Navegaci&oacute;n</td><td>Brave</td><td id="str-s5-app-brave">Navegador web r&aacute;pido con bloqueador de anuncios integrado</td></tr>
+        <tr><td id="str-s5-cat-term">Terminal</td><td>Alacritty</td><td id="str-s5-app-alacritty">Emulador de terminal acelerado por GPU</td></tr>
+        <tr><td id="str-s5-cat-pkg">Paquetes</td><td>OctoXBPS</td><td id="str-s5-app-octoxbps">Gestor gr&aacute;fico de paquetes para xbps</td></tr>
+        <tr><td id="str-s5-cat-display">Pantalla</td><td>wdisplays</td><td id="str-s5-app-wdisplays">Configuraci&oacute;n de monitores y pantallas en Wayland</td></tr>
+        <tr><td id="str-s5-cat-office">Ofim&aacute;tica</td><td>LibreOffice</td><td id="str-s5-app-lo">Suite ofim&aacute;tica completa (texto, hojas, presentaciones)</td></tr>
+        <tr><td id="str-s5-cat-img">Im&aacute;genes</td><td>GIMP</td><td id="str-s5-app-gimp">Editor de im&aacute;genes profesional</td></tr>
+        <tr><td id="str-s5-cat-mail">Correo</td><td>Trojita</td><td id="str-s5-app-trojita">Cliente de correo ligero IMAP</td></tr>
+        <tr><td id="str-s5-cat-media">Multimedia</td><td>mpv</td><td id="str-s5-app-mpv">Reproductor multimedia ligero y potente</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p id="str-s5-p8">Este conjunto puede ampliarse en futuras versiones. Puedes instalar m&aacute;s software f&aacute;cilmente usando xbps o el gestor gr&aacute;fico OctoXBPS, como veremos en las secciones siguientes.</p>
+</section>
+
+<!-- ============================================ -->
+<!-- SECTION 6: CONEXION A INTERNET               -->
+<!-- ============================================ -->
+<section class="section" id="internet">
+  <h2 class="section-title"><span class="icon">6</span> <span id="str-s6-title">Conexi&oacute;n a internet</span></h2>
+
+  <p id="str-s6-p1">Para actualizar el sistema e instalar software, necesitas conectarte a internet. OlivOS incluye herramientas para conectarte tanto por cable como por Wi-Fi.</p>
+
+  <h3 class="subsection-title" id="str-s6-wired">Conexi&oacute;n por cable (Ethernet)</h3>
+  <p id="str-s6-p2">Si usas un cable de red, la conexi&oacute;n suele ser autom&aacute;tica gracias al servicio <code>dhcpcd</code>. Simplemente conecta el cable y comprueba que tienes acceso a internet:</p>
+  <pre><code>ping -c 3 olivoslinux.com</code></pre>
+
+  <p id="str-s6-p3">Si no funciona autom&aacute;ticamente, aseg&uacute;rate de que el servicio dhcpcd est&aacute; habilitado y activo:</p>
+  <pre><code><span class="comment"># Habilitar dhcpcd si no lo est&aacute;</span>
+sudo runitctl enable dhcpcd
+sudo runitctl start dhcpcd</code></pre>
+
+  <h3 class="subsection-title" id="str-s6-wifi">Conexi&oacute;n Wi-Fi</h3>
+  <p id="str-s6-p4">Para conectarte a una red Wi-Fi desde el escritorio, puedes usar el applet de red de LXQt en la bandeja del sistema. Si prefieres la terminal:</p>
+  <pre><code><span class="comment"># Listar redes disponibles</span>
+sudo iwctl station wlan0 scan
+sudo iwctl station wlan0 get-networks
+
+<span class="comment"># Conectarse a una red</span>
+sudo iwctl station wlan0 connect &quot;NombreDeTuRed&quot;
+
+<span class="comment"># Si necesitas usar wpa_supplicant directamente</span>
+sudo wpa_supplicant -B -i wlan0 -c &lt;(wpa_passphrase &quot;NombreDeTuRed&quot; &quot;TuContrase&ntilde;a&quot;)
+sudo dhcpcd wlan0</code></pre>
+
+  <div class="callout callout-tip">
+    <p id="str-s6-tip"><strong>Consejo:</strong> Para que la conexi&oacute;n Wi-Fi se conecte autom&aacute;ticamente al arrancar, aseg&uacute;rate de habilitar el servicio correspondiente con <code>runitctl enable &lt;servicio&gt;</code>. Puedes usar <code>runitctl list-all</code> para ver los servicios de red disponibles.</p>
+  </div>
+</section>
+
+<!-- ============================================ -->
+<!-- SECTION 7: ACTUALIZACION                     -->
+<!-- ============================================ -->
+<section class="section" id="actualizar">
+  <h2 class="section-title"><span class="icon">7</span> <span id="str-s7-title">Actualizaci&oacute;n del sistema</span></h2>
+
+  <p id="str-s7-p1">Mantener tu sistema actualizado es importante para recibir las &uacute;ltimas correcciones de seguridad, mejoras de rendimiento y nuevas versiones de software. OlivOS hereda el sistema de paquetes de Void Linux, que permite actualizaciones r&aacute;pidas y seguras.</p>
+
+  <h3 class="subsection-title" id="str-s7-update">Actualizar los paquetes</h3>
+  <p id="str-s7-p2">Para actualizar todo el sistema, ejecuta estos dos comandos:</p>
+  <pre><code><span class="comment"># Sincronizar los repositorios (descargar la lista de paquetes m&aacute;s reciente)</span>
+sudo xbps-install -S
+
+<span class="comment"># Actualizar todos los paquetes instalados</span>
+sudo xbps-install -u</code></pre>
+
+  <p id="str-s7-p3">Puedes combinar ambos comandos en uno solo:</p>
+  <pre><code>sudo xbps-install -Su</code></pre>
+
+  <h3 class="subsection-title" id="str-s7-kernel">Actualizar el kernel</h3>
+  <p id="str-s7-p4">Cuando se actualiza el kernel de OlivOS (recuerda que se compila semanalmente), necesitas regenerar la imagen de arranque para que los cambios surtan efecto:</p>
+  <pre><code><span class="comment"># Despu&eacute;s de actualizar, reconfigura el kernel</span>
+sudo xbps-reconfigure -f linux</code></pre>
+  <p id="str-s7-p5">Si tienes instalados m&uacute;ltiples versiones del kernel, puedes verificar cu&aacute;l est&aacute; activa:</p>
+  <pre><code>uname -r</code></pre>
+
+  <h3 class="subsection-title" id="str-s7-graphical">Actualizaci&oacute;n desde la interfaz gr&aacute;fica</h3>
+  <p id="str-s7-p6">Si prefieres no usar la terminal, puedes actualizar el sistema desde <strong>OctoXBPS</strong> (el gestor gr&aacute;fico de paquetes). Abre OctoXBPS, haz clic en &quot;Actualizar&quot; y confirma los cambios. Tambi&eacute;n puedes usar el bot&oacute;n &quot;Actualizar sistema&quot; en <strong>OlivOS-Welcome</strong>.</p>
+
+  <div class="callout callout-info">
+    <p id="str-s7-info"><strong>Sobre los repositorios:</strong> OlivOS utiliza los repositorios oficiales de Void Linux m&aacute;s su propio repositorio en <code>packages.olivoslinux.com</code>. Al ejecutar <code>xbps-install -S</code>, se sincronizan ambos or&iacute;genes. Los paquetes propios de OlivOS (como el instalador, runitctl o el tema visual) provienen del repositorio de OlivOS.</p>
+  </div>
+
+  <h3 class="subsection-title" id="str-s7-timeshift">Instant&aacute;neas del sistema con Timeshift</h3>
+  <p id="str-s7-p7">Antes de realizar una actualizaci&oacute;n importante, es buena idea crear un punto de restauraci&oacute;n. OlivOS incluye <strong>Timeshift</strong>, una herramienta que crea instant&aacute;neas del sistema que puedes restaurar si algo sale mal. Puedes acceder a &eacute;l desde OlivOS-Welcome o desde el men&uacute; de aplicaciones.</p>
+  <pre><code><span class="comment"># Crear una instant&aacute;nea manual desde la terminal</span>
+sudo timeshift --create --comments &quot;Antes de actualizaci&oacute;n importante&quot;</code></pre>
+</section>
+
+<!-- ============================================ -->
+<!-- SECTION 8: PACKAGES (merged xbps + opkg + OctoXBPS) -->
+<!-- ============================================ -->
+<section class="section" id="packages">
+  <h2 class="section-title"><span class="icon">8</span> <span id="str-s8-title">Gesti&oacute;n de paquetes: xbps, opkg y OctoXBPS</span></h2>
+
+  <h3 class="subsection-title" id="str-s8-xbps">El gestor de paquetes xbps</h3>
+  <p id="str-s8-p1"><strong>xbps</strong> (X Binary Package System) es el gestor de paquetes nativo de Void Linux y, por tanto, la base sobre la que OlivOS gestiona el software. Trabaja con paquetes binarios precompilados, lo que hace que la instalaci&oacute;n sea r&aacute;pida. A continuaci&oacute;n se muestra una tabla de referencia r&aacute;pida con los comandos m&aacute;s utilizados:</p>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th id="str-s8-tbl-act">Acci&oacute;n</th>
+          <th id="str-s8-tbl-cmd">Comando</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td id="str-s8-t1">Sincronizar repositorios</td><td><code>sudo xbps-install -S</code></td></tr>
+        <tr><td id="str-s8-t2">Instalar paquete</td><td><code>sudo xbps-install paquete</code></td></tr>
+        <tr><td id="str-s8-t3">Actualizar sistema</td><td><code>sudo xbps-install -Su</code></td></tr>
+        <tr><td id="str-s8-t4">Buscar paquete</td><td><code>xbps-query -Rs t&eacute;rmino</code></td></tr>
+        <tr><td id="str-s8-t5">Eliminar paquete</td><td><code>sudo xbps-remove paquete</code></td></tr>
+        <tr><td id="str-s8-t6">Eliminar dependencias hu&eacute;rfanas</td><td><code>sudo xbps-remove -O</code></td></tr>
+        <tr><td id="str-s8-t7">Listar instalados</td><td><code>xbps-query -l</code></td></tr>
+        <tr><td id="str-s8-t8">Limpiar cach&eacute;</td><td><code>sudo xbps-remove -Oo</code></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="subsection-title" id="str-s8-opkg">opkg — Gestor de paquetes simplificado</h3>
+
+  <h4 class="subsubsection-title" id="str-s8-opkg-what">&iquest;Qu&eacute; es opkg?</h4>
+  <p id="str-s8-opkg-p1"><strong>opkg</strong> es un wrapper (envoltorio) alrededor de xbps escrito en Bash que ofrece una sintaxis similar a <code>apt</code>, el gestor de paquetes de Debian y Ubuntu. Su prop&oacute;sito es hacer m&aacute;s intuitiva la gesti&oacute;n de paquetes en OlivOS, especialmente para usuarios que provienen de distribuciones basadas en Debian y que no est&aacute;n familiarizados con los comandos de xbps. Cuando ejecutas un comando opkg, este traduce la acci&oacute;n al comando xbps correspondiente y lo ejecuta en segundo plano, a&ntilde;adiendo adem&aacute;s salida coloreada y una barra de progreso visual para las descargas.</p>
+  <p id="str-s8-opkg-p2">opkg es software libre licenciado bajo GPLv3 y su c&oacute;digo fuente est&aacute; disponible en <a href="https://github.com/PabloG-Dev/OPKG" target="_blank">github.com/PabloG-Dev/OPKG</a>.</p>
+
+  <h4 class="subsubsection-title" id="str-s8-opkg-syntax">Sintaxis general</h4>
+  <pre><code>opkg &lt;acci&oacute;n&gt; [paquete...]</code></pre>
+  <p id="str-s8-opkg-p3">Si ejecutas <code>opkg</code> sin argumentos, se mostrar&aacute; un mensaje de uso b&aacute;sico. Para ver la ayuda completa, usa <code>opkg --help</code>.</p>
+
+  <h4 class="subsubsection-title" id="str-s8-opkg-commands">Comandos disponibles</h4>
+  <p id="str-s8-opkg-p4">La siguiente tabla muestra todos los comandos de opkg, su equivalente en xbps y una descripci&oacute;n:</p>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th id="str-s8-opkg-tbl-cmd">Comando opkg</th>
+          <th id="str-s8-opkg-tbl-equiv">Equivalente xbps</th>
+          <th id="str-s8-opkg-tbl-root">&iquest;Root?</th>
+          <th id="str-s8-opkg-tbl-desc">Descripci&oacute;n</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td><code>opkg update</code></td><td><code>xbps-install -S</code></td><td>S&iacute;</td><td id="str-s8-opkg-d1">Sincronizar repositorios de paquetes</td></tr>
+        <tr><td><code>opkg upgrade</code></td><td><code>xbps-install -Su</code></td><td>S&iacute;</td><td id="str-s8-opkg-d2">Actualizar todos los paquetes instalados</td></tr>
+        <tr><td><code>opkg install &lt;pkg...&gt;</code></td><td><code>xbps-install</code></td><td>S&iacute;</td><td id="str-s8-opkg-d3">Instalar uno o m&aacute;s paquetes</td></tr>
+        <tr><td><code>opkg remove &lt;pkg...&gt;</code></td><td><code>xbps-remove</code></td><td>S&iacute;</td><td id="str-s8-opkg-d4">Eliminar uno o m&aacute;s paquetes</td></tr>
+        <tr><td><code>opkg purge &lt;pkg...&gt;</code></td><td><code>xbps-remove -R</code></td><td>S&iacute;</td><td id="str-s8-opkg-d5">Eliminar paquetes y sus dependencias</td></tr>
+        <tr><td><code>opkg autoremove</code></td><td><code>xbps-remove -O</code></td><td>S&iacute;</td><td id="str-s8-opkg-d6">Eliminar dependencias hu&eacute;rfanas</td></tr>
+        <tr><td><code>opkg clean</code></td><td><code>xbps-remove -Oo</code></td><td>S&iacute;</td><td id="str-s8-opkg-d7">Limpiar cach&eacute; de paquetes y hu&eacute;rfanos</td></tr>
+        <tr><td><code>opkg search &lt;t&eacute;rmino&gt;</code></td><td><code>xbps-query -Rs</code></td><td>No</td><td id="str-s8-opkg-d8">Buscar paquetes en repositorios</td></tr>
+        <tr><td><code>opkg list</code></td><td><code>xbps-query -l</code></td><td>No</td><td id="str-s8-opkg-d9">Listar paquetes instalados</td></tr>
+        <tr><td><code>opkg info &lt;pkg&gt;</code></td><td><code>xbps-query / xbps-query -RS</code></td><td>No</td><td id="str-s8-opkg-d10">Informaci&oacute;n de un paquete (instalado o remoto)</td></tr>
+        <tr><td><code>opkg files &lt;pkg&gt;</code></td><td><code>xbps-query -f</code></td><td>No</td><td id="str-s8-opkg-d12">Listar archivos instalados por un paquete</td></tr>
+        <tr><td><code>opkg which &lt;archivo&gt;</code></td><td><code>xbps-query -o</code></td><td>No</td><td id="str-s8-opkg-d13">Averiguar qu&eacute; paquete posee un archivo</td></tr>
+        <tr><td><code>opkg depends &lt;pkg&gt;</code></td><td><code>xbps-query -x</code></td><td>No</td><td id="str-s8-opkg-d14">Listar dependencias de un paquete</td></tr>
+        <tr><td><code>opkg reverse-deps &lt;pkg&gt;</code></td><td><code>xbps-query -X</code></td><td>No</td><td id="str-s8-opkg-d15">Listar paquetes que dependen de este</td></tr>
+        <tr><td><code>opkg repos</code></td><td><code>xbps-query -L</code></td><td>No</td><td id="str-s8-opkg-d16">Listar repositorios configurados</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h4 class="subsubsection-title" id="str-s8-opkg-examples">Ejemplos pr&aacute;cticos</h4>
+
+  <h4 class="subsubsection-title" id="str-s8-opkg-ex-install">Instalar un paquete</h4>
+  <pre><code><span class="comment"># Actualizar repositorios e instalar un paquete</span>
+sudo opkg update
+sudo opkg install gimp
+
+<span class="comment"># Instalar varios paquetes a la vez</span>
+sudo opkg install gimp inkscape blender</code></pre>
+
+  <h4 class="subsubsection-title" id="str-s8-opkg-ex-upgrade">Actualizar el sistema completo</h4>
+  <pre><code><span class="comment"># Sincronizar y actualizar todos los paquetes</span>
+sudo opkg update
+sudo opkg upgrade</code></pre>
+  <p id="str-s8-opkg-p5">Si el sistema ya est&aacute; actualizado, opkg mostrar&aacute; un mensaje en amarillo indicando que no hay actualizaciones disponibles, en lugar de mostrar un error.</p>
+
+  <h4 class="subsubsection-title" id="str-s8-opkg-ex-remove">Eliminar paquetes y limpiar</h4>
+  <pre><code><span class="comment"># Eliminar un paquete (sin sus dependencias)</span>
+sudo opkg remove gimp
+
+<span class="comment"># Eliminar un paquete junto con sus dependencias</span>
+sudo opkg purge gimp
+
+<span class="comment"># Eliminar dependencias hu&eacute;rfanas que ya no necesita nadie</span>
+sudo opkg autoremove
+
+<span class="comment"># Limpiar cach&eacute; de paquetes descargados y hu&eacute;rfanos</span>
+sudo opkg clean</code></pre>
+
+  <h4 class="subsubsection-title" id="str-s8-opkg-ex-search">Buscar paquetes</h4>
+  <pre><code><span class="comment"># Buscar un paquete en los repositorios</span>
+opkg search firefox
+
+<span class="comment"># Ver informaci&oacute;n de un paquete (funciona tanto si est&aacute; instalado como si est&aacute; en el repositorio)</span>
+opkg info firefox</code></pre>
+  <p id="str-s8-opkg-p6">Cuando buscas con <code>opkg search</code>, el t&eacute;rmino de b&uacute;squeda se resalta en amarillo dentro de los resultados, lo que facilita identificar r&aacute;pidamente las coincidencias. Los nombres de paquetes aparecen en verde.</p>
+
+  <h4 class="subsubsection-title" id="str-s8-opkg-ex-info">Consultas sobre paquetes</h4>
+  <pre><code><span class="comment"># Averiguar qu&eacute; paquete posee un archivo</span>
+opkg which /usr/bin/firefox
+
+<span class="comment"># Ver las dependencias de un paquete</span>
+opkg depends firefox
+
+<span class="comment"># Ver qu&eacute; paquetes dependen de este</span>
+opkg reverse-deps firefox
+
+<span class="comment"># Listar los archivos que instal&oacute; un paquete</span>
+opkg files firefox</code></pre>
+
+  <h4 class="subsubsection-title" id="str-s8-opkg-privileges">Privilegios de root</h4>
+  <p id="str-s8-opkg-p7">Los comandos que modifican el sistema (install, remove, purge, update, upgrade, autoremove, clean) requieren privilegios de administrador. Si ejecutas uno de estos comandos sin <code>sudo</code>, opkg detectar&aacute; que no tienes permisos y te sugerir&aacute; el comando correcto con sudo, mostrando la acci&oacute;n y los argumentos en verde. Los comandos de consulta (search, list, info, files, which, depends, reverse-deps, repos) no necesitan sudo y puedes ejecutarlos como usuario normal.</p>
+
+  <h4 class="subsubsection-title" id="str-s8-opkg-diff">Diferencia importante: remove vs purge</h4>
+  <p id="str-s8-opkg-p8">Un par de comandos de opkg puede generar confusi&oacute;n si vienes de apt:</p>
+  <ul>
+    <li><strong><code>opkg remove</code> vs <code>opkg purge</code>:</strong> <code>remove</code> elimina solo el paquete indicado, dejando sus dependencias instaladas. <code>purge</code> elimina el paquete y recursivamente todas sus dependencias que ya no sean necesarias. En apt, purge elimina los archivos de configuraci&oacute;n; en opkg, la diferencia es la eliminaci&oacute;n recursiva de dependencias.</li>
+  </ul>
+
+  <h3 class="subsection-title" id="str-s8-octoxbps">OctoXBPS — Gesti&oacute;n gr&aacute;fica de paquetes</h3>
+  <p id="str-s8-octoxbps-p1">OlivOS incluye <strong>OctoXBPS</strong>, un gestor gr&aacute;fico de paquetes muy potente que act&uacute;a como frontend visual de xbps. Con OctoXBPS puedes realizar todas las operaciones de gesti&oacute;n de paquetes directamente desde la interfaz gr&aacute;fica: buscar paquetes disponibles en los repositorios, instalar nuevos programas, actualizar los ya instalados y eliminar los que ya no necesites, todo con unos pocos clics y sin necesidad de recordar comandos. La interfaz muestra informaci&oacute;n detallada de cada paquete (versi&oacute;n, descripci&oacute;n, dependencias, tama&ntilde;o) y te permite filtrar y ordenar los resultados para encontrar r&aacute;pidamente lo que buscas. Lo encontrar&aacute;s en el men&uacute; de aplicaciones bajo la categor&iacute;a &laquo;Sistema&raquo;. Es la opci&oacute;n ideal si prefieres no usar la terminal para gestionar el software de tu equipo.</p>
+
+  <div class="callout callout-tip">
+    <p id="str-s8-tip"><strong>Software que no est&aacute; en los repositorios:</strong> Si un programa no est&aacute; disponible en los repositorios de Void Linux ni en los de OlivOS, puedes buscarlo en <strong>Flathub</strong> (usando Flatpak), descargarlo como <strong>AppImage</strong> o, en algunos casos, usar contenedores <strong>Distrobox</strong>. OlivOS tambi&eacute;n planea ampliar su repositorio propio con el tiempo.</p>
+  </div>
+</section>
+
+<!-- ============================================ -->
+<!-- SECTION 9: RUNITCTL                         -->
+<!-- ============================================ -->
+<section class="section" id="runitctl">
+  <h2 class="section-title"><span class="icon">9</span> <span id="str-s9-title">Gesti&oacute;n de servicios con runitctl</span></h2>
+
+  <p id="str-s9-p1">En la mayor&iacute;a de distribuciones Linux, los servicios se gestionan con <code>systemctl</code> (parte de systemd). Sin embargo, Void Linux y OlivOS utilizan <strong>runit</strong> como sistema de inicio, que tiene una forma diferente de gestionar servicios. Para facilitar la transici&oacute;n, OlivOS incluye <strong>runitctl</strong>, un script que ofrece una interfaz similar a systemctl para gestionar servicios runit de forma sencilla e intuitiva.</p>
+
+  <h3 class="subsection-title" id="str-s9-concept">&iquest;Qu&eacute; es un servicio?</h3>
+  <p id="str-s9-p2">Un servicio (o demonio, &quot;daemon&quot;) es un programa que se ejecuta en segundo plano y proporciona una funci&oacute;n esencial del sistema. Ejemplos de servicios son el gestor de red, el servidor de audio, el gestor de inicio de sesi&oacute;n, etc. En runit, los servicios se encuentran en dos ubicaciones clave:</p>
+  <ul>
+    <li><code>/etc/sv/</code> &mdash; <span id="str-s9-sv-desc">Contiene las definiciones de todos los servicios disponibles en el sistema.</span></li>
+    <li><code>/var/service/</code> &mdash; <span id="str-s9-var-desc">Contiene enlaces simb&oacute;licos a los servicios que est&aacute;n habilitados (se iniciar&aacute;n autom&aacute;ticamente).</span></li>
+  </ul>
+  <p id="str-s9-p3">Cuando un servicio est&aacute; &quot;habilitado&quot;, significa que runit lo iniciar&aacute; autom&aacute;ticamente al arrancar el sistema. Cuando est&aacute; &quot;deshabilitado&quot;, el servicio existe pero no arranca solo, aunque puedes iniciarlo manualmente.</p>
+
+  <h3 class="subsection-title" id="str-s9-commands">Comandos de runitctl</h3>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th id="str-s9-tbl-cmd">Comando</th>
+          <th id="str-s9-tbl-desc">Descripci&oacute;n</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td><code>runitctl start servicio</code></td><td id="str-s9-d1">Iniciar un servicio</td></tr>
+        <tr><td><code>runitctl stop servicio</code></td><td id="str-s9-d2">Detener un servicio</td></tr>
+        <tr><td><code>runitctl restart servicio</code></td><td id="str-s9-d3">Reiniciar un servicio</td></tr>
+        <tr><td><code>runitctl status servicio</code></td><td id="str-s9-d4">Mostrar el estado de un servicio</td></tr>
+        <tr><td><code>runitctl enable servicio</code></td><td id="str-s9-d5">Habilitar un servicio (inicio autom&aacute;tico)</td></tr>
+        <tr><td><code>runitctl disable servicio</code></td><td id="str-s9-d6">Deshabilitar un servicio</td></tr>
+        <tr><td><code>runitctl list-active</code></td><td id="str-s9-d7">Listar servicios activos</td></tr>
+        <tr><td><code>runitctl list-all</code></td><td id="str-s9-d8">Listar todos los servicios disponibles</td></tr>
+        <tr><td><code>runitctl --help</code></td><td id="str-s9-d9">Mostrar ayuda</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="subsection-title" id="str-s9-examples">Ejemplos pr&aacute;cticos</h3>
+
+  <h4 class="subsubsection-title" id="str-s9-ex1">Habilitar e iniciar el servicio de red</h4>
+  <pre><code><span class="comment"># Habilitar dhcpcd para conexi&oacute;n autom&aacute;tica por cable</span>
+sudo runitctl enable dhcpcd
+sudo runitctl start dhcpcd
+
+<span class="comment"># Verificar que funciona</span>
+runitctl status dhcpcd</code></pre>
+
+  <h4 class="subsubsection-title" id="str-s9-ex2">Reiniciar el servicio de audio</h4>
+  <pre><code>sudo runitctl restart pipewire</code></pre>
+
+  <h4 class="subsubsection-title" id="str-s9-ex3">Ver qu&eacute; servicios est&aacute;n activos</h4>
+  <pre><code>runitctl list-active</code></pre>
+  <p id="str-s9-p4">Esto mostrar&aacute; una lista con un indicador verde al lado de cada servicio que se est&eacute; ejecutando. Para ver tambi&eacute;n los servicios disponibles pero deshabilitados:</p>
+  <pre><code>runitctl list-all</code></pre>
+  <p id="str-s9-p5">Los servicios habilitados aparecer&aacute;n con un indicador verde y los deshabilitados con un indicador rojo.</p>
+
+  <div class="callout callout-warn">
+    <p id="str-s9-warn"><strong>Nota:</strong> runitctl requiere privilegios de administrador (sudo) para la mayor&iacute;a de operaciones. Si intentas ejecutar una acci&oacute;n sin sudo, el propio runitctl te sugerir&aacute; que uses <code>sudo runitctl</code>.</p>
+  </div>
+</section>
+
+<!-- ============================================ -->
+<!-- SECTION 10: AUDIO, GRAFICOS Y DRIVERS        -->
+<!-- ============================================ -->
+<section class="section" id="audio-graficos">
+  <h2 class="section-title"><span class="icon">10</span> <span id="str-s10-title">Audio, gr&aacute;ficos y controladores</span></h2>
+
+  <h3 class="subsection-title" id="str-s10-audio">Audio con PipeWire</h3>
+  <p id="str-s10-p1">OlivOS utiliza <strong>PipeWire</strong> como servidor de audio, junto con <strong>WirePlumber</strong> como gestor de sesi&oacute;n. PipeWire es la tecnolog&iacute;a de audio moderna en Linux, dise&ntilde;ada para sustituir tanto a PulseAudio como a JACK, ofreciendo baja latencia y compatibilidad con ambos ecosistemas. En la pr&aacute;ctica, esto significa que tus aplicaciones de audio y v&iacute;deo funcionar&aacute;n correctamente sin necesidad de configuraci&oacute;n adicional.</p>
+  <p id="str-s10-p2">Si necesitas ajustar el volumen o seleccionar dispositivos de entrada/salida, puedes usar <strong>pavucontrol</strong> (Control de volumen de PulseAudio), que es compatible con PipeWire a trav&eacute;s de su capa de compatibilidad PulseAudio. Si no est&aacute; instalado:</p>
+  <pre><code>sudo xbps-install pavucontrol</code></pre>
+
+  <h4 class="subsubsection-title" id="str-s10-audio-troubleshoot">Problemas comunes de audio</h4>
+  <ul>
+    <li id="str-s10-a1"><strong>No hay sonido:</strong> Verifica que PipeWire se est&aacute; ejecutando con <code>runitctl status pipewire</code> y que los dispositivos de salida no est&aacute;n silenciados en pavucontrol.</li>
+    <li id="str-s10-a2"><strong>Audio cortado o con chasquidos:</strong> Comprueba que el servicio de PipeWire est&aacute; activo y que no hay conflictos con PulseAudio (que no deber&iacute;a estar instalado si usas PipeWire).</li>
+    <li id="str-s10-a3"><strong>El micr&oacute;fono no funciona:</strong> Abre pavucontrol, ve a la pesta&ntilde;a &quot;Configuraci&oacute;n&quot; y aseg&uacute;rate de que el perfil del dispositivo de entrada incluye &quot;Entrada est&eacute;reo&quot; o similar.</li>
+  </ul>
+
+  <h3 class="subsection-title" id="str-s10-gpu">Controladores gr&aacute;ficos</h3>
+
+  <h4 class="subsubsection-title" id="str-s10-amd">AMD</h4>
+  <p id="str-s10-p3">Las tarjetas gr&aacute;ficas AMD funcionan de serie en OlivOS con los drivers libres <strong>amdgpu</strong>, incluidos en el kernel. No necesitas instalar nada adicional. El soporte incluye aceleraci&oacute;n por hardware de v&iacute;deo, salida a monitores externos y composici&oacute;n Wayland.</p>
+
+  <h4 class="subsubsection-title" id="str-s10-intel">Intel</h4>
+  <p id="str-s10-p4">Las GPU Intel integradas tambi&eacute;n funcionan con los drivers libres (<strong>i915</strong>) incluidos en el kernel. Se recomienda instalar el microc&oacute;digo de Intel (puedes hacerlo durante la instalaci&oacute;n con Almazara o despu&eacute;s):</p>
+  <pre><code>sudo xbps-install intel-ucode
+sudo xbps-reconfigure -f linux</code></pre>
+
+  <h4 class="subsubsection-title" id="str-s10-nvidia">NVIDIA</h4>
+  <p id="str-s10-p5">Si tu equipo tiene una GPU NVIDIA, tienes dos opciones:</p>
+  <ul>
+    <li id="str-s10-nv-prop"><strong>Drivers propietarios (recomendado para rendimiento):</strong> Puedes instalarlos durante la instalaci&oacute;n con Almazara o despu&eacute;s:
+      <pre><code><span class="comment"># Instalar drivers NVIDIA</span>
+sudo xbps-install nvidia
+
+<span class="comment"># Regenerar initramfs</span>
+sudo xbps-reconfigure -f linux</code></pre>
+    </li>
+    <li id="str-s10-nv-nouveau"><strong>Driver libre Nouveau:</strong> Viene por defecto con el kernel. Funciona para uso b&aacute;sico, pero no ofrece el mismo rendimiento que los drivers propietarios, especialmente para tareas 3D o gaming.</li>
+  </ul>
+
+  <h3 class="subsection-title" id="str-s10-wayland">Wayland con LabWC</h3>
+  <p id="str-s10-p6">OlivOS utiliza <strong>LabWC</strong> como compositor Wayland para el escritorio LXQt. Wayland es el protocolo gr&aacute;fico moderno que sustituye a X11, ofreciendo mejor composici&oacute;n, seguridad y fluidez. LabWC es un compositor ligero compatible con el est&aacute;ndar wlroots, dise&ntilde;ado para ser r&aacute;pido y sencillo.</p>
+  <p id="str-s10-p7">Para configurar tus monitores y pantallas, OlivOS incluye <strong>wdisplays</strong>, una herramienta gr&aacute;fica que te permite organizar la disposici&oacute;n de las pantallas, ajustar resoluciones y tasas de refresco. La encontrar&aacute;s en el men&uacute; de aplicaciones.</p>
+
+  <div class="callout callout-info">
+    <p id="str-s10-info"><strong>Kernel personalizado:</strong> El kernel de OlivOS se compila semanalmente con configuraciones optimizadas. Esto significa que los m&oacute;dulos de drivers m&aacute;s comunes est&aacute;n incluidos, pero si tienes hardware muy espec&iacute;fico, puede que necesites cargar m&oacute;dulos adicionales manualmente.</p>
+  </div>
+</section>
+
+
+
+<!-- ============================================ -->
+<!-- SECTION 11: SOLUCION DE PROBLEMAS            -->
+<!-- ============================================ -->
+<section class="section" id="solucion">
+  <h2 class="section-title"><span class="icon">11</span> <span id="str-s11-title">Soluci&oacute;n de problemas</span></h2>
+
+  <p id="str-s11-p1">Esta secci&oacute;n recoge los problemas m&aacute;s comunes que puedes encontrar al usar OlivOS y sus soluciones. Si tu problema no est&aacute; aqu&iacute;, consulta la secci&oacute;n de preguntas frecuentes o visita la wiki oficial en olivoslinux.com.</p>
+
+  <h3 class="subsection-title" id="str-s11-boot">El sistema no arranca</h3>
+  <p id="str-s11-p2">Si tras la instalaci&oacute;n OlivOS no arranca, puede deberse a varias causas:</p>
+  <ul>
+    <li id="str-s11-b1"><strong>GRUB no se instal&oacute; correctamente:</strong> Arranca desde el USB live, abre una terminal y reinstala GRUB:
+      <pre><code><span class="comment"># Montar la partici&oacute;n ra&iacute;z (ajusta sdXn a tu partici&oacute;n)</span>
+sudo mount /dev/sdXn /mnt
+
+<span class="comment"># Si tienes EFI, monta tambi&eacute;n la partici&oacute;n EFI</span>
+sudo mount /dev/sdXm /mnt/boot/efi
+
+<span class="comment"># Reinstalar GRUB</span>
+sudo chroot /mnt grub-install /dev/sdX   <span class="comment"># Para BIOS</span>
+sudo chroot /mnt grub-install --target=x86_64-efi --efi-directory=/boot/efi  <span class="comment"># Para UEFI</span>
+sudo chroot /mnt update-grub</code></pre>
+    </li>
+    <li id="str-s11-b2"><strong>Partici&oacute;n EFI no seleccionada:</strong> En sistemas UEFI, aseg&uacute;rate de que la partici&oacute;n EFI est&aacute; correctamente formateada como FAT32 y montada en <code>/boot/efi</code>.</li>
+    <li id="str-s11-b3"><strong>Orden de arranque en la BIOS:</strong> Entra en la BIOS/UEFI y verifica que OlivOS aparece en el orden de arranque. Si no, a&ntilde;ade la entrada manualmente.</li>
+  </ul>
+
+  <h3 class="subsection-title" id="str-s11-wifi">Problemas de Wi-Fi</h3>
+  <ul>
+    <li id="str-s11-w1"><strong>No se detecta la tarjeta Wi-Fi:</strong> Verifica si tu tarjeta requiere firmware privativo. Ejecuta <code>sudo xbps-install linux-firmware</code> y reinicia.</li>
+    <li id="str-s11-w2"><strong>La conexi&oacute;n se cae constantemente:</strong> Prueba a desactivar la gesti&oacute;n de energ&iacute;a de la tarjeta con <code>sudo iwconfig wlan0 power off</code>.</li>
+    <li id="str-s11-w3"><strong>No puedo conectarme con iwctl:</strong> Aseg&uacute;rate de que el servicio iwd est&aacute; habilitado: <code>sudo runitctl enable iwd && sudo runitctl start iwd</code>.</li>
+  </ul>
+
+  <h3 class="subsection-title" id="str-s11-nvidia">Problemas con NVIDIA</h3>
+  <ul>
+    <li id="str-s11-n1"><strong>Pantalla negra despu&eacute;s de instalar drivers NVIDIA:</strong> Esto puede deberse a un conflicto con el driver Nouveau. A&ntilde;ade <code>rd.driver.blacklist=nouveau</code> a los par&aacute;metros del kernel en <code>/etc/default/grub</code> y ejecuta <code>sudo update-grub</code>.</li>
+    <li id="str-s11-n2"><strong>Wayland no funciona con NVIDIA:</strong> Los drivers NVIDIA propietarios tienen soporte limitado para Wayland. Aseg&uacute;rate de usar la versi&oacute;n m&aacute;s reciente del driver y de que tienes habilitados los mods de kernel necesarios: <code>nvidia-drm.modeset=1</code>.</li>
+    <li id="str-s11-n3"><strong>Rendimiento pobre en juegos:</strong> Verifica que la aceleraci&oacute;n 3D est&aacute; activa con <code>glxinfo | grep &quot;OpenGL renderer&quot;</code>. Si muestra &quot;llvmpipe&quot;, los drivers no est&aacute;n cargando correctamente.</li>
+  </ul>
+
+  <h3 class="subsection-title" id="str-s11-audio-t">Problemas de audio</h3>
+  <ul>
+    <li id="str-s11-au1"><strong>No hay sonido:</strong> Ejecuta <code>runitctl status pipewire</code> para verificar que PipeWire est&aacute; activo. Si no, in&iacute;cialo con <code>runitctl start pipewire</code>.</li>
+    <li id="str-s11-au2"><strong>Solo se escucha por un canal:</strong> Abre pavucontrol y verifica la configuraci&oacute;n del perfil del dispositivo en la pesta&ntilde;a &quot;Configuraci&oacute;n&quot;.</li>
+    <li id="str-s11-au3"><strong>El audio se corta:</strong> Puede ser un problema de prioridad del proceso. Instala y configura <code>rtkit</code> para que PipeWire tenga prioridad en tiempo real: <code>sudo xbps-install rtkit</code>.</li>
+  </ul>
+
+  <h3 class="subsection-title" id="str-s11-pkg">Problemas con paquetes</h3>
+  <ul>
+    <li id="str-s11-pk1"><strong>Error &quot;unable to locate package&quot;:</strong> Primero sincroniza los repositorios: <code>sudo xbps-install -S</code>.</li>
+    <li id="str-s11-pk2"><strong>Error &quot;conflicting package&quot;:</strong> Usa <code>sudo xbps-install -f paquete</code> para forzar la reinstalaci&oacute;n.</li>
+    <li id="str-s11-pk3"><strong>Paquetes rotos tras una actualizaci&oacute;n:</strong> Ejecuta <code>sudo xbps-reconfigure -fa</code> para reconfigurar todos los paquetes. Si el problema persiste, puedes restaurar una instant&aacute;nea de Timeshift.</li>
+  </ul>
+
+  <h3 class="subsection-title" id="str-s11-wayland-t">Problemas con Wayland/LabWC</h3>
+  <ul>
+    <li id="str-s11-wl1"><strong>Las aplicaciones no se ven correctamente:</strong> Algunas aplicaciones antiguas requieren XWayland (una capa de compatibilidad). Aseg&uacute;rate de que est&aacute; instalado: <code>sudo xbps-install xorg-server-xwayland</code>.</li>
+    <li id="str-s11-wl2"><strong>No puedo compartir pantalla en videollamadas:</strong> Verifica que PipeWire y xdg-desktop-portal est&aacute;n instalados y ejecut&aacute;ndose: <code>sudo xbps-install xdg-desktop-portal xdg-desktop-portal-wlr</code>.</li>
+  </ul>
+</section>
+
+<!-- ============================================ -->
+<!-- SECTION 12: COMANDOS UTILES                  -->
+<!-- ============================================ -->
+<section class="section" id="comandos">
+  <h2 class="section-title"><span class="icon">12</span> <span id="str-s12-title">Comandos &uacute;tiles de la terminal</span></h2>
+
+  <p id="str-s12-p1">Aqu&iacute; tienes una referencia r&aacute;pida de los comandos m&aacute;s utilizados en OlivOS, organizados por categor&iacute;a. No es necesario que los memorices todos, pero te ser&aacute;n &uacute;tiles como gu&iacute;a de consulta.</p>
+
+  <h3 class="subsection-title" id="str-s12-sys">Informaci&oacute;n del sistema</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th id="str-s12-tbl-cmd">Comando</th><th id="str-s12-tbl-desc">Descripci&oacute;n</th></tr></thead>
+      <tbody>
+        <tr><td><code>uname -r</code></td><td id="str-s12-d1">Mostrar versi&oacute;n del kernel</td></tr>
+        <tr><td><code>uname -a</code></td><td id="str-s12-d2">Informaci&oacute;n completa del sistema</td></tr>
+        <tr><td><code>cat /etc/os-release</code></td><td id="str-s12-d3">Mostrar versi&oacute;n de OlivOS</td></tr>
+        <tr><td><code>free -h</code></td><td id="str-s12-d4">Mostrar uso de memoria RAM</td></tr>
+        <tr><td><code>df -h</code></td><td id="str-s12-d5">Mostrar uso de disco</td></tr>
+        <tr><td><code>lscpu</code></td><td id="str-s12-d6">Informaci&oacute;n del procesador</td></tr>
+        <tr><td><code>lsblk</code></td><td id="str-s12-d7">Listar discos y particiones</td></tr>
+        <tr><td><code>uptime</code></td><td id="str-s12-d8">Tiempo que lleva encendido el sistema</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="subsection-title" id="str-s12-pkg">Gesti&oacute;n de paquetes (xbps)</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th id="str-s12-tbl-cmd2">Comando</th><th id="str-s12-tbl-desc2">Descripci&oacute;n</th></tr></thead>
+      <tbody>
+        <tr><td><code>sudo xbps-install -S</code></td><td id="str-s12-d9">Sincronizar repositorios</td></tr>
+        <tr><td><code>sudo xbps-install -Su</code></td><td id="str-s12-d10">Actualizar sistema</td></tr>
+        <tr><td><code>sudo xbps-install paquete</code></td><td id="str-s12-d11">Instalar paquete</td></tr>
+        <tr><td><code>sudo xbps-remove paquete</code></td><td id="str-s12-d12">Eliminar paquete</td></tr>
+        <tr><td><code>sudo xbps-remove -O</code></td><td id="str-s12-d13">Eliminar dependencias hu&eacute;rfanas</td></tr>
+        <tr><td><code>xbps-query -Rs t&eacute;rmino</code></td><td id="str-s12-d14">Buscar paquete</td></tr>
+        <tr><td><code>xbps-query -l</code></td><td id="str-s12-d15">Listar paquetes instalados</td></tr>
+        <tr><td><code>sudo xbps-reconfigure -fa</code></td><td id="str-s12-d16">Reconfigurar todos los paquetes</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="subsection-title" id="str-s12-svc">Gesti&oacute;n de servicios (runitctl)</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th id="str-s12-tbl-cmd3">Comando</th><th id="str-s12-tbl-desc3">Descripci&oacute;n</th></tr></thead>
+      <tbody>
+        <tr><td><code>runitctl list-all</code></td><td id="str-s12-d17">Listar todos los servicios</td></tr>
+        <tr><td><code>runitctl list-active</code></td><td id="str-s12-d18">Listar servicios activos</td></tr>
+        <tr><td><code>runitctl status servicio</code></td><td id="str-s12-d19">Estado de un servicio</td></tr>
+        <tr><td><code>sudo runitctl start servicio</code></td><td id="str-s12-d20">Iniciar servicio</td></tr>
+        <tr><td><code>sudo runitctl stop servicio</code></td><td id="str-s12-d21">Detener servicio</td></tr>
+        <tr><td><code>sudo runitctl enable servicio</code></td><td id="str-s12-d22">Habilitar inicio autom&aacute;tico</td></tr>
+        <tr><td><code>sudo runitctl disable servicio</code></td><td id="str-s12-d23">Deshabilitar inicio autom&aacute;tico</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="subsection-title" id="str-s12-net">Red</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th id="str-s12-tbl-cmd4">Comando</th><th id="str-s12-tbl-desc4">Descripci&oacute;n</th></tr></thead>
+      <tbody>
+        <tr><td><code>ip addr</code></td><td id="str-s12-d24">Mostrar interfaces de red</td></tr>
+        <tr><td><code>ping -c 3 google.com</code></td><td id="str-s12-d25">Probar conexi&oacute;n a internet</td></tr>
+        <tr><td><code>iwctl</code></td><td id="str-s12-d26">Gestor interactivo de Wi-Fi (iwd)</td></tr>
+        <tr><td><code>sudo dhcpcd</code></td><td id="str-s12-d27">Obtener direcci&oacute;n IP por DHCP</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="subsection-title" id="str-s12-disk">Discos y particiones</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th id="str-s12-tbl-cmd5">Comando</th><th id="str-s12-tbl-desc5">Descripci&oacute;n</th></tr></thead>
+      <tbody>
+        <tr><td><code>lsblk</code></td><td id="str-s12-d28">Listar dispositivos de bloque</td></tr>
+        <tr><td><code>sudo fdisk -l</code></td><td id="str-s12-d29">Listar particiones detalladas</td></tr>
+        <tr><td><code>sudo mount /dev/sdXn /mnt</code></td><td id="str-s12-d30">Montar una partici&oacute;n</td></tr>
+        <tr><td><code>sudo umount /mnt</code></td><td id="str-s12-d31">Desmontar una partici&oacute;n</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="subsection-title" id="str-s12-misc">Varios</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th id="str-s12-tbl-cmd6">Comando</th><th id="str-s12-tbl-desc6">Descripci&oacute;n</th></tr></thead>
+      <tbody>
+        <tr><td><code>swapon --show</code></td><td id="str-s12-d32">Mostrar swap activa (incluyendo zram)</td></tr>
+        <tr><td><code>zramctl</code></td><td id="str-s12-d33">Informaci&oacute;n de dispositivos zram</td></tr>
+        <tr><td><code>tlp-stat -s</code></td><td id="str-s12-d34">Estado de TLP (gesti&oacute;n de energ&iacute;a)</td></tr>
+        <tr><td><code>journalctl -b</code></td><td id="str-s12-d35">Ver registros del arranque actual</td></tr>
+        <tr><td><code>dmesg | tail</code></td><td id="str-s12-d36">&Uacute;ltimos mensajes del kernel</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ============================================ -->
+<!-- SECTION 13: FAQ                              -->
+<!-- ============================================ -->
+<section class="section" id="faq">
+  <h2 class="section-title"><span class="icon">13</span> <span id="str-s13-title">Preguntas frecuentes</span></h2>
+
+  <h3 class="subsection-title" id="str-s13-q1">&iquest;En qu&eacute; se diferencia OlivOS de Void Linux?</h3>
+  <p id="str-s13-a1">OlivOS est&aacute; basado en Void Linux, pero a&ntilde;ade varias capas encima: un escritorio preconfigurado (LXQt + LabWC con Wayland), herramientas propias como runitctl, opkg y el instalador Almazara, optimizaciones preconfiguradas (zram, TLP, ananicy), un tema visual propio, un repositorio de paquetes adicional, y un kernel compilado semanalmente. Mientras que Void Linux es una base excelente pero requiere configuraci&oacute;n manual, OlivOS ofrece una experiencia lista para usar desde la instalaci&oacute;n, reduciendo significativamente la curva de aprendizaje.</p>
+
+  <h3 class="subsection-title" id="str-s13-q2">&iquest;Puedo usar OlivOS si nunca he usado Linux?</h3>
+  <p id="str-s13-a2">S&iacute;. OlivOS est&aacute; dise&ntilde;ado para ser accesible. El instalador gr&aacute;fico Almazara te guiar&aacute; paso a paso, la pantalla de bienvenida te da acceso r&aacute;pido a las herramientas esenciales, y el gestor gr&aacute;fico de paquetes OctoXBPS permite instalar software sin tocar la terminal. Dicho esto, alg&uacute;n conocimiento b&aacute;sico de terminal te ayudar&aacute; a sacar m&aacute;s partido al sistema, especialmente para tareas de configuraci&oacute;n o soluci&oacute;n de problemas.</p>
+
+  <h3 class="subsection-title" id="str-s13-q3">&iquest;OlivOS usa systemd?</h3>
+  <p id="str-s13-a3">No. OlivOS utiliza <strong>runit</strong> como sistema de inicio, igual que Void Linux. runit es m&aacute;s ligero y r&aacute;pido que systemd, pero funciona de forma diferente. Para facilitar la gesti&oacute;n de servicios, OlivOS incluye <strong>runitctl</strong>, que ofrece comandos similares a systemctl (start, stop, enable, disable, status), haciendo la transici&oacute;n m&aacute;s sencilla para usuarios acostumbrados a systemd.</p>
+
+  <h3 class="subsection-title" id="str-s13-q4">&iquest;C&oacute;mo instalo software que no est&aacute; en los repositorios?</h3>
+  <p id="str-s13-a4">Tienes varias opciones: <strong>Flatpak</strong> (con el repositorio Flathub, que contiene miles de aplicaciones), <strong>AppImage</strong> (aplicaciones autocontenidas que solo necesitas descargar y ejecutar), <strong>Distrobox</strong> (para ejecutar aplicaciones de otras distribuciones en contenedores), o compilar desde el c&oacute;digo fuente. Con el tiempo, el repositorio de OlivOS tambi&eacute;n ir&aacute; ampli&aacute;ndose con m&aacute;s software.</p>
+
+  <h3 class="subsection-title" id="str-s13-q5">&iquest;OlivOS es estable? &iquest;Es apto para producci&oacute;n?</h3>
+  <p id="str-s13-a5">OlivOS se encuentra actualmente en versi&oacute;n <strong>0.9 Alpha</strong>. Esto significa que, aunque es funcional y usable en el d&iacute;a a d&iacute;a, pueden existir errores o comportamientos inesperados. Para uso cr&iacute;tico o en entornos de producci&oacute;n, se recomienda esperar a versiones m&aacute;s maduras. Sin embargo, la base (Void Linux) es extremadamente estable, y las herramientas propias est&aacute;n en desarrollo activo.</p>
+
+  <h3 class="subsection-title" id="str-s13-q6">&iquest;Qu&eacute; es zram y por qu&eacute; mi swap muestra memoria comprimida?</h3>
+  <p id="str-s13-a6"><strong>zram</strong> es una tecnolog&iacute;a que crea un espacio de swap comprimido directamente en la RAM. En OlivOS, zram est&aacute; configurado al 25% de tu RAM total mediante <strong>zramen</strong>. Esto significa que, si tienes 4 GB de RAM, aproximadamente 1 GB se usar&aacute; como swap comprimida, lo que equivale a m&aacute;s de 1 GB de swap efectivo gracias a la compresi&oacute;n. No te preocupes: esto no &quot;roba&quot; RAM, sino que la usa de forma inteligente cuando el sistema necesita m&aacute;s memoria de la disponible.</p>
+
+  <h3 class="subsection-title" id="str-s13-q7">&iquest;Puedo instalar OlivOS junto a Windows u otro Linux?</h3>
+  <p id="str-s13-a7">S&iacute;, pero no hay una opci&oacute;n autom&aacute;tica en el instalador. Necesitas particionar manualmente el disco usando KDE Partition Manager (disponible desde Almazara), dejando espacio libre para OlivOS, y luego seleccionar las particiones en el instalador. Despu&eacute;s de la instalaci&oacute;n, GRUB deber&iacute;a detectar autom&aacute;ticamente otros sistemas operativos. Si no lo hace, ejecuta <code>sudo update-grub</code>.</p>
+
+  <h3 class="subsection-title" id="str-s13-q8">&iquest;C&oacute;mo vuelvo a una versi&oacute;n anterior si una actualizaci&oacute;n falla?</h3>
+  <p id="str-s13-a8">Si tienes una instant&aacute;nea de Timeshift, puedes restaurarla f&aacute;cilmente. Si no tienes Timeshift configurado, xbps no tiene un mecanismo nativo de rollback, pero puedes forzar la instalaci&oacute;n de una versi&oacute;n espec&iacute;fica de un paquete con <code>sudo xbps-install -f paquete=versi&oacute;n</code>. Se recomienda encarecidamente configurar Timeshift para crear instant&aacute;neas autom&aacute;ticas antes de actualizaciones importantes.</p>
+
+  <h3 class="subsection-title" id="str-s13-q9">&iquest;D&oacute;nde puedo conseguir ayuda?</h3>
+  <p id="str-s13-a9">Puedes visitar la p&aacute;gina oficial <a href="https://olivoslinux.com">olivoslinux.com</a> y la wiki del proyecto. Dado que OlivOS est&aacute; basado en Void Linux, mucha de la documentaci&oacute;n de Void tambi&eacute;n aplica: <a href="https://docs.voidlinux.org" target="_blank">docs.voidlinux.org</a>. Para la comunidad de Void, el foro y el canal IRC/Matrix son recursos valiosos.</p>
+
+  <h3 class="subsection-title" id="str-s13-q10">&iquest;OlivOS es lo mismo que CuerdOS?</h3>
+  <p id="str-s13-a10">No. CuerdOS Linux (<a href="https://cuerdos.github.io" target="_blank">cuerdos.github.io</a>) es otra distribuci&oacute;n del mismo desarrollador con su propia trayectoria e identidad. OlivOS nace como un port renovado que toma la experiencia de CuerdOS pero sobre una base diferente (Void Linux) y con su propio enfoque, herramientas y comunidad. Son proyectos hermanos, pero independientes.</p>
+
+  <h3 class="subsection-title" id="str-s13-q11">&iquest;Por qu&eacute; los paquetes no configuran nada autom&aacute;ticamente?</h3>
+  <p id="str-s13-a11">Esta es una diferencia filos&oacute;fica importante respecto a distribuciones como Ubuntu o Fedora. En Void Linux (y por extensi&oacute;n en OlivOS), los paquetes instalan los archivos necesarios, pero no ejecutan scripts de post-instalaci&oacute;n que modifiquen la configuraci&oacute;n del sistema autom&aacute;ticamente. Esto da al usuario control total sobre su sistema, pero requiere que algunos pasos se hagan manualmente (como habilitar servicios con runitctl o regenerar el initramfs). Esta filosof&iacute;a prioriza la transparencia y el control del usuario sobre la comodidad autom&aacute;tica.</p>
+</section>
+
+</div><!-- /content -->
+
+<!-- FOOTER -->
+<footer class="doc-footer">
+  <div class="links">
+    <a href="https://olivoslinux.com" target="_blank">olivoslinux.com</a>
+    <a href="https://packages.olivoslinux.com" target="_blank">packages.olivoslinux.com</a>
+    <a href="https://docs.voidlinux.org" target="_blank">docs.voidlinux.org</a>
+  </div>
+  <p id="str-footer-text">Manual de usuario de OlivOS v0.9 Alpha &middot; Licencia GPLv3</p>
+</footer>
+
+</main><!-- /main -->
+
+<!-- Back to top -->
+<button class="back-top" id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Volver arriba">&#8593;</button>
+
+<script>
+// ===== SIDEBAR TOGGLE (mobile) =====
+function toggleSidebar(){
+  document.getElementById('sidebar').classList.toggle('open');
+}
+// Close sidebar when clicking a link on mobile
+document.querySelectorAll('.sidebar-nav a').forEach(a=>{
+  a.addEventListener('click',()=>{
+    if(window.innerWidth<=1024) document.getElementById('sidebar').classList.remove('open');
+  });
+});
+
+// ===== ACTIVE SECTION TRACKING =====
+const sections=document.querySelectorAll('.section');
+const navLinks=document.querySelectorAll('.sidebar-nav a');
+const observer=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      navLinks.forEach(l=>l.classList.remove('active'));
+      const active=document.querySelector(`.sidebar-nav a[href="#${e.target.id}"]`);
+      if(active) active.classList.add('active');
+    }
+  });
+},{rootMargin:'-80px 0px -60% 0px',threshold:0});
+sections.forEach(s=>observer.observe(s));
+
+// ===== BACK TO TOP =====
+window.addEventListener('scroll',()=>{
+  document.getElementById('backTop').classList.toggle('visible',window.scrollY>400);
+});
+
+// ===== KEYBOARD SHORTCUTS =====
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape'){
+    document.getElementById('sidebar').classList.remove('open');
+  }
+});
+</script>
+
+<script src="translations.js"></script>
+<script src="https://itszariep.github.io/SJTSW/sjtsw.js"></script>
+</body>
+</html>
