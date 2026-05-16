@@ -17,20 +17,32 @@
 
 <body>
 
+    <!-- Mobile menu overlay -->
+    <div class="mobile-overlay" id="mobileOverlay"></div>
+
     <nav class="navbar" role="navigation" aria-label="">
         <div class="navbar-container">
 
             <img src="images/olivos-logo.svg" alt="" class="nav-logo"
                  onclick="window.scrollTo({ top: 0, behavior: 'smooth' })">
 
-            <ul class="nav-menu">
+            <ul class="nav-menu" id="navMenu">
                 <li><a id="str-menu-about" href="#acerca" class="nav-link"></a></li>
                 <li><a id="str-menu-download" href="#descarga" class="nav-link"></a></li>
                 <li><a id="str-menu-wiki" href="wiki.html" class="nav-link"></a></li>
             </ul>
 
-            <img src="images/github.svg" alt="" class="nav-logo"
-                 onclick="window.location.href='https://github.com/PabloG-Dev'">
+            <div class="nav-right">
+                <img src="images/github.svg" alt="" class="nav-logo nav-github"
+                     onclick="window.location.href='https://github.com/PabloG-Dev'">
+
+                <!-- Hamburger button (mobile only) -->
+                <button class="hamburger" id="hamburgerBtn" aria-label="Open menu" aria-expanded="false">
+                    <span class="hamburger-line"></span>
+                    <span class="hamburger-line"></span>
+                    <span class="hamburger-line"></span>
+                </button>
+            </div>
         </div>
     </nav>
 
@@ -182,6 +194,71 @@
             </div>
         </div>
     </footer>
+
+    <script>
+        // ===== Mobile hamburger menu =====
+        (function() {
+            var btn = document.getElementById('hamburgerBtn');
+            var menu = document.getElementById('navMenu');
+            var overlay = document.getElementById('mobileOverlay');
+
+            function openMenu() {
+                menu.classList.add('mobile-open');
+                overlay.classList.add('active');
+                btn.classList.add('active');
+                btn.setAttribute('aria-expanded', 'true');
+                document.body.style.overflow = 'hidden';
+            }
+
+            function closeMenu() {
+                menu.classList.remove('mobile-open');
+                overlay.classList.remove('active');
+                btn.classList.remove('active');
+                btn.setAttribute('aria-expanded', 'false');
+                document.body.style.overflow = '';
+            }
+
+            btn.addEventListener('click', function() {
+                if (menu.classList.contains('mobile-open')) {
+                    closeMenu();
+                } else {
+                    openMenu();
+                }
+            });
+
+            overlay.addEventListener('click', closeMenu);
+
+            // Close menu when a nav link is clicked
+            menu.querySelectorAll('.nav-link').forEach(function(link) {
+                link.addEventListener('click', closeMenu);
+            });
+        })();
+
+        // ===== Download dropdown: tap to toggle on mobile =====
+        (function() {
+            var dropdowns = document.querySelectorAll('.dropdown');
+            dropdowns.forEach(function(dd) {
+                var btn = dd.querySelector('.btn');
+                var content = dd.querySelector('.dropdown-content');
+
+                btn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    // Close all others first
+                    document.querySelectorAll('.dropdown-content.dropdown-open').forEach(function(el) {
+                        if (el !== content) el.classList.remove('dropdown-open');
+                    });
+                    content.classList.toggle('dropdown-open');
+                });
+            });
+
+            // Close all dropdowns when clicking outside
+            document.addEventListener('click', function() {
+                document.querySelectorAll('.dropdown-content.dropdown-open').forEach(function(el) {
+                    el.classList.remove('dropdown-open');
+                });
+            });
+        })();
+    </script>
 
     <script>SJTSW_TranslatePage();</script>
 </body>
